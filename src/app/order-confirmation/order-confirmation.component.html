@@ -1,12 +1,62 @@
 <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
     <div class="form-group">
-      <label>Order name</label>
-      <input type="text" name="orderName" class="form-control" [(ngModel)]="model.orderName" required>
+        <label for="productCategory">Product Category</label>
+        <select 
+            name="productCategory" 
+            id="productCategory" 
+            class="form-control"
+            [(ngModel)]="model.productCategory">
+            <option *ngFor="let product of productCategories" [value]="product.label">{{ product.label }}</option>
+        </select>
     </div>
     <div class="form-group">
-      <label>Order description</label>
-      <input type="text" class="form-control" name="orderDescription" [(ngModel)]="model.orderDescription" required>
+      <label>Party Name</label>
+      <input type="text" class="form-control" name="partyName" [(ngModel)]="model.partyName" required>
     </div>
+    <div class="form-group">
+        <label>Delivery City</label>
+        <input type="text" class="form-control" name="deliveryCity" [(ngModel)]="model.deliveryCity" required>
+      </div>
+      <div class="form-group">
+        <label>Product Code</label>
+        <input type="text" class="form-control" name="productCode" [(ngModel)]="model.productCode" required>
+      </div>
+      <div class="form-group">
+        <label>Product Description</label>
+        <input type="text" class="form-control" name="productDescription" [(ngModel)]="model.productDescription" required>
+      </div>
+      <div class="form-group">
+        <label>Size</label>
+        <input type="text" class="form-control" name="size" [(ngModel)]="model.size" required>
+      </div>
+      <div class="form-group">
+        <label>Quantity</label>
+        <input type="text" class="form-control" name="quantity" [(ngModel)]="model.quantity" required>
+      </div>
+      <div class="form-group">
+        <label>Quality</label>
+        <input type="text" class="form-control" name="quality" [(ngModel)]="model.quality" required>
+      </div>
+      <div class="form-group">
+        <label>Polish</label>
+        <input type="text" class="form-control" name="polish" [(ngModel)]="model.polish" required>
+      </div>
+      <div class="form-group">
+        <label>Shape</label>
+        <input type="text" class="form-control" name="shape" [(ngModel)]="model.shape" required>
+      </div>
+      <div class="form-group">
+        <label>DeliveryDate</label>
+        <input type="text" class="form-control" name="deliveryDate" [(ngModel)]="model.deliveryDate" required>
+      </div>
+      <div class="form-group">
+        <label>Color</label>
+        <input type="text" class="form-control" name="color" [(ngModel)]="model.color" required>
+      </div>
+      <div class="form-group">
+        <label>Secondary Manager</label>
+        <input type="text" class="form-control" name="secondaryManager" [(ngModel)]="model.secondaryManager" required>
+      </div>
     <div class="form-group">
       <button class="btn btn-danger btn-block">Submit</button>
     </div>

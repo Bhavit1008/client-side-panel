@@ -1,63 +1,134 @@
-<form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
-    <div class="form-group">
-        <label for="productCategory">Product Category</label>
-        <select 
-            name="productCategory" 
-            id="productCategory" 
-            class="form-control"
-            [(ngModel)]="model.productCategory">
-            <option *ngFor="let product of productCategories" [value]="product.label">{{ product.label }}</option>
-        </select>
-    </div>
-    <div class="form-group">
-      <label>Party Name</label>
-      <input type="text" class="form-control" name="partyName" [(ngModel)]="model.partyName" required>
-    </div>
-    <div class="form-group">
-        <label>Delivery City</label>
-        <input type="text" class="form-control" name="deliveryCity" [(ngModel)]="model.deliveryCity" required>
+<div class="container">
+  <form #userForm="ngForm"  style="padding: 2px;" [formGroup]="orderCompForm">
+    <div *ngIf="isNewOrder">
+      <h5>New Order Confirmation</h5>
+      <div class="form-group">
+          <label for="productCategory">Product Category</label>
+          <select 
+              name="productCategory" 
+              id="productCategory" 
+              class="form-control"
+              [disabled]="isSubmitted"
+              formControlName="productCategory">
+              <option *ngFor="let product of productCategories" [value]="product.label">{{ product.label }}</option>
+          </select>
       </div>
       <div class="form-group">
+        <label>Party Name</label>
+        <input type="text" class="form-control" name="partyName" formControlName="partyName"  [disabled]="isSubmitted" required>
+      </div>
+      <div class="form-group">
+          <label>Delivery City</label>
+          <input type="text" class="form-control" name="deliveryCity" formControlName="deliveryCity" [disabled]="isSubmitted" required>
+        </div>
+        <div class="form-group">
+          <label>Product Code</label>
+          <input type="text" class="form-control" name="productCode" formControlName="productCode" [disabled]="isSubmitted" required>
+        </div>
+        <div class="form-group">
+          <label>Product Description</label>
+          <input type="text" class="form-control" name="productDescription" formControlName="productDescription" [disabled]="isSubmitted" required>
+        </div>
+        <div class="form-group">
+          <label>Size</label>
+          <input type="text" class="form-control" name="size" formControlName="size" [disabled]="isSubmitted" required>
+        </div>
+        <div class="form-group">
+          <label>Quantity</label>
+          <input type="text" class="form-control" name="quantity" formControlName="quantity" [disabled]="isSubmitted" required>
+        </div>
+        <div class="form-group">
+          <label>Quality</label>
+          <input type="text" class="form-control" name="quality" formControlName="quality" [disabled]="isSubmitted" required>
+        </div>
+        <div class="form-group">
+          <label>Polish</label>
+          <input type="text" class="form-control" name="polish" formControlName="polish" [disabled]="isSubmitted" required>
+        </div>
+        <div class="form-group">
+          <label>Shape</label>
+          <input type="text" class="form-control" name="shape" formControlName="shape" [disabled]="isSubmitted" required>
+        </div>
+        <div class="form-group">
+          <label>DeliveryDate</label>
+          <input type="text" class="form-control" name="deliveryDate" formControlName="deliveryDate" [disabled]="isSubmitted" required>
+        </div>
+        <div class="form-group">
+          <label>Color</label>
+          <input type="text" class="form-control" name="color" formControlName="color" [disabled]="isSubmitted" required>
+        </div>
+        <div class="form-group">
+          <label>Secondary Manager</label>
+          <input type="text" class="form-control" name="secondaryManager" formControlName="secondaryManager" [disabled]="isSubmitted" required>
+        </div>
+          <div class="row col-md-8">
+            <div class="form-group" style="margin-right: 16px;">
+              <button class="btn btn-primary btn-block" (click)="saveNewOrder(userForm)" [disabled]="isSubmitted">Save</button>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-secondary btn-block"  (click)="goToRunningOrderComp()">Next</button>
+            </div> 
+        </div>
+    </div>
+
+    <div>
+       <!-- Running order form skeleton starts here -->
+  <div class="container" *ngIf="isRunningOrder">
+    <h5>Running Order Details</h5>
+    <div class="form-group">
+      <label>Party Name</label>
+      <input type="text" class="form-control" name="partyName" formControlName="partyName" required>
+    </div>
+      <div class="form-group">
         <label>Product Code</label>
-        <input type="text" class="form-control" name="productCode" [(ngModel)]="model.productCode" required>
+        <input type="text" class="form-control" name="productCode" formControlName="productCode" required>
       </div>
       <div class="form-group">
         <label>Product Description</label>
-        <input type="text" class="form-control" name="productDescription" [(ngModel)]="model.productDescription" required>
+        <input type="text" class="form-control" name="productDescription" formControlName="productDescription" required>
       </div>
       <div class="form-group">
-        <label>Size</label>
-        <input type="text" class="form-control" name="size" [(ngModel)]="model.size" required>
+        <label>Total Quantity</label>
+        <input type="text" class="form-control" name="quantity" formControlName="quantity" required>
       </div>
       <div class="form-group">
-        <label>Quantity</label>
-        <input type="text" class="form-control" name="quantity" [(ngModel)]="model.quantity" required>
+        <label>Dispatched Quantity</label>
+        <input type="text" class="form-control" name="dispatchedQuantity" formControlName="dispatchedQuantity" required>
       </div>
       <div class="form-group">
-        <label>Quality</label>
-        <input type="text" class="form-control" name="quality" [(ngModel)]="model.quality" required>
+        <label>Left Quantity</label>
+        <input type="text" class="form-control" name="leftQuantity" formControlName="leftQuantity" required>
       </div>
+      
       <div class="form-group">
-        <label>Polish</label>
-        <input type="text" class="form-control" name="polish" [(ngModel)]="model.polish" required>
-      </div>
-      <div class="form-group">
-        <label>Shape</label>
-        <input type="text" class="form-control" name="shape" [(ngModel)]="model.shape" required>
-      </div>
-      <div class="form-group">
-        <label>DeliveryDate</label>
-        <input type="text" class="form-control" name="deliveryDate" [(ngModel)]="model.deliveryDate" required>
-      </div>
-      <div class="form-group">
-        <label>Color</label>
-        <input type="text" class="form-control" name="color" [(ngModel)]="model.color" required>
-      </div>
-      <div class="form-group">
-        <label>Secondary Manager</label>
-        <input type="text" class="form-control" name="secondaryManager" [(ngModel)]="model.secondaryManager" required>
-      </div>
-    <div class="form-group">
-      <button class="btn btn-danger btn-block">Submit</button>
+        <label for="status">Status</label>
+        <select 
+            name="status" 
+            id="status" 
+            class="form-control"
+            formControlName="status"
+            >
+            <option *ngFor="let stat of status" [value]="stat.label">{{ stat.label }}</option>
+        </select>
     </div>
+    <div class="row col-md-8">
+      <div class="form-group" style="margin-right: 16px;">
+        <button class="btn btn-secondary btn-block" (click)="goToNewOrderComp()">Back</button>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary btn-block" (click)="saveRunningOrder(userForm)">Save</button>
+      </div>
+    </div> 
+  </div>
+    </div>  
   </form>
+</div>
+
+
+ 
+  
+  
+  
+  
+  
+  <!-- <app-running-order [confirmedOrderDetails]="confirmedOrderDetails"></app-running-order> -->

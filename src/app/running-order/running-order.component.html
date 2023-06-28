@@ -1,0 +1,45 @@
+<form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
+    
+    <div class="form-group">
+      <label>Party Name</label>
+      <input type="text" class="form-control" name="partyName" [(ngModel)]="model.partyName" required>
+    </div>
+      <div class="form-group">
+        <label>Product Code</label>
+        <input type="text" class="form-control" name="productCode" [(ngModel)]="model.productCode" required>
+      </div>
+      <div class="form-group">
+        <label>Product Description</label>
+        <input type="text" class="form-control" name="productDescription" [(ngModel)]="model.productDescription" required>
+      </div>
+      <div class="form-group">
+        <label>Total Quantity</label>
+        <input type="text" class="form-control" name="quantity" [(ngModel)]="model.quantity" required>
+      </div>
+      <div class="form-group">
+        <label>Dispatched Quantity</label>
+        <input type="text" class="form-control" name="dispatchedQuantity" [(ngModel)]="model.dispatchedQuantity" required>
+      </div>
+      <div class="form-group">
+        <label>Left Quantity</label>
+        <input type="text" class="form-control" name="leftQuantity" [(ngModel)]="model.leftQuantity" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select 
+            name="status" 
+            id="status" 
+            class="form-control"
+            [(ngModel)]="model.status">
+            <option *ngFor="let stat of status" [value]="stat.label">{{ stat.label }}</option>
+        </select>
+    </div>
+     
+      
+      
+      
+    <div class="form-group">
+      <button class="btn btn-danger btn-block">Submit</button>
+    </div>
+  </form>

@@ -103,11 +103,14 @@ buildForm(){
     leftQuantity: new FormControl(''),
     status: new FormControl('')
   })
+  this.orderCompForm.get('productCategory')!.setValue('Handicraft');
+  this.orderCompForm.get('status')?.setValue('Recieved');
 }
 
 //set values for edit page
 setEditValues(data: any){
   console.log('setEditValues is called');
+  this.currentId = data.id;
   this.orderCompForm.get('productCategory')!.setValue(data.productCategory);
   this.orderCompForm.get('partyName')?.setValue(data.partyName);
   this.orderCompForm.get('deliveryCity')?.setValue(data.deliveryCity);
@@ -126,15 +129,15 @@ setEditValues(data: any){
   this.orderCompForm.get('dispatchedQuantity')?.setValue(data.dispatchedQuantity);
   this.orderCompForm.get('leftQuantity')?.setValue(data.leftQuantity);
   this.orderCompForm.get('status')?.setValue(data.status);
-  this.currentId = data.id
   this.responseObj = data;
 }
 
 //prepare response object for new order confirmation
 prepareResForNewOrder(form: any){
   var currentTime = new Date();
+  this.currentId = currentTime.toString();
   this.responseObj = {
-    id: currentTime,
+    id: currentTime.toString(),
     productCategory: form.value.productCategory,
     partyName: form.value.partyName,
     deliveryCity: form.value.deliveryCity,
@@ -152,7 +155,7 @@ prepareResForNewOrder(form: any){
     secondaryManager: form.value.secondaryManager,
     dispatchedQuantity: '',
     leftQuantity: '',
-    status: ''
+    status: 'Recieved'
   }
 }
 
@@ -174,6 +177,8 @@ saveNewOrder(form: any){
 prepareResForRunningOrder(form: any){
   console.log('data for running order :: ',form.value.dispatchedQuantity )
   var currentTime = new Date();
+  console.log('form.value.productCategory :: ',form.value.productCategory)
+  console.log('current id:: ', this.currentId);
   this.responseObj = {
     id: this.currentId,
     productCategory: form.value.productCategory,

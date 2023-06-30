@@ -1,12 +1,24 @@
 <div class="container">
+  <div class="row col-md-3 col-sm-6 col-xs-6" style="width: 18rem;">
+    <label for="selectStatus">Select Status</label>
+    <select 
+        name="selectStatus" 
+        id="selectStatus" 
+        class="form-control"
+        (change)= "onSelectStatusChange($event)"
+        >
+        <option *ngFor="let stat of status" [value]="stat.label">{{ stat.label }}</option>
+    </select>
+</div>
     <div class="row">
-        <div class="card col-md-3 col-sm-6 col-xs-6" style="width: 18rem; margin: 4px;" *ngFor="let num of response">
+        <div class="card col-md-3 col-sm-6 col-xs-6" style="width: 18rem; margin: 12px; padding:2px;" *ngFor="let num of response">
             <div class="card-body">
               <h5 class="card-title">{{num.partyName}}</h5>
               <h6 class="card-subtitle mb-2 text-muted">{{num.productDescription}}</h6>
-              <p class="card-text">{{num.primaryManager}}</p>
+              <h6 class="card-subtitle mb-2 text-muted">{{num.deliveryDate}}</h6>
+              <p class="card-text">{{num.status}}</p>
               <a  class="card-link" [routerLink]="[ '/order-confirmation',num]">Edit</a>
-              <a href="#" class="card-link">Delete</a>
+              <a href="/get-orders" class="card-link" (click)="deleteOrder(num)">Delete</a>
               <a href="#" class="card-link">View</a>
             </div>
           </div>

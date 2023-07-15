@@ -8,6 +8,8 @@ import { OrderConfirmationComponent } from './order-confirmation/order-confirmat
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RunningOrderComponent } from './running-order/running-order.component';
 import { GetOrdersComponent } from './get-orders/get-orders.component';
+import { LoginComponentComponent } from './login-component/login-component.component';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @NgModule({
@@ -15,7 +17,8 @@ import { GetOrdersComponent } from './get-orders/get-orders.component';
     AppComponent,
     OrderConfirmationComponent,
     RunningOrderComponent,
-    GetOrdersComponent
+    GetOrdersComponent,
+    LoginComponentComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +28,8 @@ import { GetOrdersComponent } from './get-orders/get-orders.component';
     ReactiveFormsModule
   ],
   providers: [
-    HttpClient
+    HttpClient,
+    CookieService
   ],
   exports: [AppRoutingModule, OrderConfirmationComponent,],
   bootstrap: [AppComponent]

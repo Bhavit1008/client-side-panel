@@ -1,0 +1,15 @@
+<div class="container" *ngIf="!loginSuccess">
+  <form #loginForm="ngForm" [formGroup]="loginCompForm">
+    <div class="form-group">
+      <label>Login id</label>
+      <input type="text" class="form-control" name="loginId" formControlName="loginId" required>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="text" class="form-control" name="password" formControlName="password" required>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-primary btn-block" (click)="login(loginForm)">login</button>
+    </div>
+  </form>
+</div>

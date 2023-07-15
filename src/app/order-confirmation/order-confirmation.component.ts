@@ -62,7 +62,7 @@ export class OrderConfirmationComponent implements OnInit {
 ]
   productCategories = [
     { id: 1, label: "Handicraft" },
-    { id: 2, label: "slabs" },
+    { id: 2, label: "Slabs" },
     { id: 3, label: "Bote"}
 ]
 

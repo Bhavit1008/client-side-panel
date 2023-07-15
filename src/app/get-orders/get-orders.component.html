@@ -1,15 +1,23 @@
 <div class="container">
-  <div class="row col-md-3 col-sm-6 col-xs-6" style="width: 18rem;">
-    <label for="selectStatus">Select Status</label>
-    <select 
-        name="selectStatus" 
-        id="selectStatus" 
-        class="form-control"
-        (change)= "onSelectStatusChange($event)"
-        >
-        <option *ngFor="let stat of status" [value]="stat.label">{{ stat.label }}</option>
-    </select>
-</div>
+  <form #getOrderForm="ngForm" [formGroup]="getOrderCompForm">
+    <div class="row col-md-3 col-sm-6 col-xs-6" style="width: 18rem;">
+      <label for="selectStatus">Select Status</label>
+      <select 
+          name="selectStatus" 
+          id="selectStatus"
+          formControlName="selectStatus" 
+          class="form-control"
+          
+          >
+          <option *ngFor="let stat of status" [value]="stat.label">{{ stat.label }}</option>
+      </select>
+      <!-- (change)= "onSelectStatusChange($event)" -->
+    </div>
+    <div class="form-group">
+      <button class="btn btn-primary btn-block" (click)="createFilterForResponse(getOrderForm)">Search</button>
+    </div>
+  </form>
+
     <div class="row">
         <div class="card col-md-3 col-sm-6 col-xs-6" style="width: 18rem; margin: 12px; padding:2px;" *ngFor="let num of response">
             <div class="card-body">

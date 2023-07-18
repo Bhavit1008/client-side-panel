@@ -1,4 +1,12 @@
 <div class="container">
+  <div class="alert alert-success" *ngIf="orderSuccessDialog" role="alert">
+    Details submitted successfully.
+      <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+  </div>
+  <div class="alert alert-danger" *ngIf="orderFailureDialog" role="alert">
+    Details not submitted, please tr again.
+      <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+  </div>
   <form #userForm="ngForm"  style="padding: 2px;" [formGroup]="orderCompForm">
     <div *ngIf="isNewOrder">
       <h5>New Order Confirmation</h5>
@@ -30,12 +38,31 @@
           <input type="text" class="form-control" name="productDescription" formControlName="productDescription" [disabled]="isSubmitted" required>
         </div>
         <div class="form-group">
-          <label>Size</label>
-          <input type="text" class="form-control" name="size" formControlName="size" [disabled]="isSubmitted" required>
+          <label for="productCategory">Unit</label>
+          <select 
+              name="unit" 
+              id="unit" 
+              class="form-control"
+              [disabled]="isSubmitted"
+              formControlName="unit">
+              <option *ngFor="let u of units" [value]="u.label">{{ u.label }}</option>
+          </select>
+      </div>
+        <div class="form-group">
+          <label>Length</label>
+          <input type="text" type="number" class="form-control" name="length" formControlName="length" [disabled]="isSubmitted" required>
+        </div>
+        <div class="form-group">
+          <label>Width</label>
+          <input type="text" type="number" class="form-control" name="width" formControlName="width" [disabled]="isSubmitted" required>
+        </div>
+        <div class="form-group">
+          <label>Height</label>
+          <input type="text" type="number" class="form-control" name="height" formControlName="height" [disabled]="isSubmitted" required>
         </div>
         <div class="form-group">
           <label>Quantity</label>
-          <input type="text" class="form-control" name="quantity" formControlName="quantity" [disabled]="isSubmitted" required>
+          <input type="text" type="number" class="form-control" name="quantity" formControlName="quantity" [disabled]="isSubmitted" required>
         </div>
         <div class="form-group">
           <label>Quality</label>
@@ -51,7 +78,7 @@
         </div>
         <div class="form-group">
           <label>DeliveryDate</label>
-          <input type="date" class="form-control" name="deliveryDate" formControlName="deliveryDate" [disabled]="isSubmitted" required>
+          <input type="date" [ngModel] ="currentD | date:'yyyy-MM-dd'" id="deliveryDate" class="form-control" name="deliveryDate" formControlName="deliveryDate" [disabled]="isSubmitted" required>
         </div>
         <div class="form-group">
           <label>Color</label>
@@ -65,9 +92,12 @@
             <div class="form-group" style="margin-right: 16px;">
               <button class="btn btn-primary btn-block" (click)="saveNewOrder(userForm)" [disabled]="isSubmitted">Save</button>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin-right: 16px;">
               <button class="btn btn-secondary btn-block"  (click)="goToRunningOrderComp()">Next</button>
             </div> 
+            <div class="form-group spinner-grow spinner-grow-md" *ngIf="isSubmitted" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
         </div>
     </div>
 
@@ -89,15 +119,19 @@
       </div>
       <div class="form-group">
         <label>Total Quantity</label>
-        <input type="text" class="form-control" name="quantity" formControlName="quantity" required>
+        <input type="text" type="number" class="form-control" name="quantity" formControlName="quantity" required>
+      </div>
+      <div class="form-group">
+        <label>Developed Quantity</label>
+        <input type="text" type="number" class="form-control" (ngModelChange)="dispatchedQuatityChange($event)" name="developedQuantity" formControlName="developedQuantity" required>
       </div>
       <div class="form-group">
         <label>Dispatched Quantity</label>
-        <input type="text" class="form-control" name="dispatchedQuantity" formControlName="dispatchedQuantity" required>
+        <input type="text" type="number" class="form-control"  name="dispatchedQuantity" formControlName="dispatchedQuantity" required>
       </div>
       <div class="form-group">
         <label>Left Quantity</label>
-        <input type="text" class="form-control" name="leftQuantity" formControlName="leftQuantity" required>
+        <input type="text" type="number" class="form-control" name="leftQuantity"  formControlName="leftQuantity" required>
       </div>
       
       <div class="form-group">
@@ -116,7 +150,10 @@
         <button class="btn btn-secondary btn-block" (click)="goToNewOrderComp()">Back</button>
       </div>
       <div class="form-group">
-        <button class="btn btn-primary btn-block" (click)="saveRunningOrder(userForm)">Save</button>
+        <button class="btn btn-primary btn-block" (click)="saveRunningOrder(userForm)" [disabled]="isSubmitted">Save</button>
+      </div>
+      <div class="form-group spinner-grow spinner-grow-md" *ngIf="isSubmitted" role="status">
+        <span class="sr-only">Loading...</span>
       </div>
     </div> 
   </div>

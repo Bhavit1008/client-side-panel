@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -17,6 +17,9 @@ export class GetOrdersComponent {
   processingOrders:any = [];
   completedOrders:any = [];
   loginSuccess = false;
+  isFetching = false
+  displayStyle = 'none'
+  currentElementToDelete: any;
   role: any;
   filter = {}
   public getOrderCompForm!: FormGroup;
@@ -41,7 +44,16 @@ export class GetOrdersComponent {
   }
 
   postApiCall(): Observable<any[]>{
-    return  this.httpClient.get<any[]>('http://localhost:8080/test')
+    console.log('api called')
+    return  this.httpClient.get<any[]>('https://setu-crm.onrender.com/test',{
+      headers:
+          new HttpHeaders(
+            {
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest',
+            }
+          )
+    })
   }
 
   // sortOrdersByStatus(response: any){
@@ -64,26 +76,36 @@ export class GetOrdersComponent {
   // }
 
   onSelectStatusChange(event:any){
-    console.log('value from select is :: ',event.target.value)
-    var selectedOption = event.target.value
-    if(selectedOption == 'Recieved'){
-      this.response = this.sortResponseByStatus(this.totalOrder,'Recieved');
-    }
-    if(selectedOption == 'Processing'){
-      this.response = this.sortResponseByStatus(this.totalOrder,'Processing');
-    }
-    if(selectedOption == 'Completed'){
-      this.response = this.sortResponseByStatus(this.totalOrder,'Completed');
-    }
-    if(selectedOption == 'All Orders'){
-      this.response = this.totalOrder
-    }
+    this.isFetching = true;
+    var response = this.postApiCall().subscribe((res) => {
+      this.isFetching = false;
+      this.totalOrder = res
+      console.log('data from subscribe :: ',res)
+      if(this.totalOrder!=undefined && this.totalOrder!=null){
+        console.log('value from select is :: ', event.value.selectStatus)
+        var selectedOption = event.value.selectStatus
+        if(selectedOption == 'Recieved'){
+          this.response = this.sortResponseByStatus(this.totalOrder,'Recieved');
+        }
+        if(selectedOption == 'Processing'){
+          this.response = this.sortResponseByStatus(this.totalOrder,'Processing');
+        }
+        if(selectedOption == 'Completed'){
+          this.response = this.sortResponseByStatus(this.totalOrder,'Completed');
+        }
+        if(selectedOption == 'All Orders'){
+          this.response = this.totalOrder
+        }
+        }
+    }) 
   }
 
   sortResponseByStatus(arr: any,param: string){
     var out = []
+    console.log('data :: ',arr);
     for(var i=0;i<arr.length;i++){
-      if(arr[i].status.toString()==param){
+      console.log('data :: ',arr[i].status);
+      if(arr[i].status?.toString()==param){
         out.push(arr[i]);
       } 
     }
@@ -91,43 +113,45 @@ export class GetOrdersComponent {
   }
 
   //function for search response
-   createFilterForResponse(form: any){
-     this.postApiCall().subscribe(data => {
-      this.totalOrder = data
-      if(this.response != null && this.response != undefined && this.response.length != 0){
-        var cred = JSON.parse(localStorage.getItem('cred') || '{}');
-        if(cred != null || cred != undefined){
-          this.role = cred.role;
-        }
+  //  createFilterForResponse(form: any){
+  //    this.postApiCall().subscribe(data => {
+  //     this.totalOrder = data
+  //     if(this.response != null && this.response != undefined && this.response.length != 0){
+  //       var cred = JSON.parse(localStorage.getItem('cred') || '{}');
+  //       if(cred != null || cred != undefined){
+  //         this.role = cred.role;
+  //       }
         
-        //this.sortOrdersByStatus(this.response);
-      }
-      console.log('response data from api :: ',data);
-    })
-    this.filter={
-      status: form.value.selectStatus,
-      productCategory: this.role
-    }
-    this.searchResponseOnCreatedFilter(this.filter);
-  }
+  //       //this.sortOrdersByStatus(this.response);
+  //     }
+  //     console.log('response data from api :: ',data);
+  //   })
+  //   this.filter={
+  //     status: form.value.selectStatus,
+  //     productCategory: this.role
+  //   }
+  //   this.searchResponseOnCreatedFilter(this.filter);
+  // }
 
-  searchResponseOnCreatedFilter(criteria: any){
-    console.log('Filter criteria :: ',criteria)
-    var result = this.totalOrder;
-    console.log('result at 116 :: ',result);
-    result = result.filter((row: { [x: string]: { toString: () => string; }; }) => {
-      return Object.keys(criteria).every(propertyName => row[propertyName].toString().toLowerCase().indexOf(criteria[propertyName].toString().toLowerCase()) > -1);
-    })
-    this.response = result;
-  console.log('filtered data :: ', result)
-  }
+  // searchResponseOnCreatedFilter(criteria: any){
+  //   console.log('Filter criteria :: ',criteria)
+  //   var result = this.totalOrder;
+  //   console.log('result at 116 :: ',result);
+  //   result = result.filter((row: { [x: string]: { toString: () => string; }; }) => {
+  //     return Object.keys(criteria).every(propertyName => row[propertyName].toString().toLowerCase().indexOf(criteria[propertyName].toString().toLowerCase()) > -1);
+  //   })
+  //   this.response = result;
+  // console.log('filtered data :: ', result)
+  // }
 
   deleteOrder(order:any){
+    console.log('delete api called ')
     this.deleteApiCall(order).subscribe(data => {
       let res = JSON.parse(JSON.stringify(data))
       console.log('data',res.status)
       if(res.status == '200'){
           console.log('deleted',res);
+          this.removeElemntAfterDelete(this.response,order);
       }
     })
   }
@@ -136,6 +160,32 @@ export class GetOrdersComponent {
     const headers = { 'content-type': 'application/json'}  
     const body=JSON.stringify(data);
     console.log(body)
-    return this.httpClient.post('http://localhost:8080/deleteOrder', body,{'headers':headers})
+    return this.httpClient.post('https://setu-crm.onrender.com/deleteOrder', body,{'headers':headers})
+  }
+
+  removeElemntAfterDelete(arr: any, res:any){
+    var index=-1;
+    for(var i=0;i<arr.length;i++){
+      if(arr[i].id == res.id){
+        console.log('match found')
+        index = i;
+      }
+    }
+    if(index!=-1){
+      this.response.splice(index, 1);
+    }
+  }
+
+  openPopup(order: any) {
+    this.displayStyle = "block";
+    this.currentElementToDelete = order;
+  }
+  deleteFromPopup() {
+    this.displayStyle = "none";
+    if(this.currentElementToDelete != undefined && this.currentElementToDelete != null)
+    this.deleteOrder(this.currentElementToDelete);
+  }
+  closePopup(){
+    this.displayStyle = 'none'
   }
 }

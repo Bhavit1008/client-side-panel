@@ -6,6 +6,8 @@ import { GetOrdersComponent } from './get-orders/get-orders.component';
 import { LoginComponentComponent } from './login-component/login-component.component';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './helper/auth.guard';
+import { AddCompanyDetailsComponent } from './add-company-details/add-company-details.component';
+import { AddStockComponent } from './add-stock/add-stock.component';
 
 const routes: Routes = [
   {
@@ -26,6 +28,16 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponentComponent
+  },
+  {
+    path: 'add-company',
+    component: AddCompanyDetailsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'add-stock',
+    component: AddStockComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: '',

@@ -10,6 +10,8 @@ import { RunningOrderComponent } from './running-order/running-order.component';
 import { GetOrdersComponent } from './get-orders/get-orders.component';
 import { LoginComponentComponent } from './login-component/login-component.component';
 import { CookieService } from 'ngx-cookie-service';
+import { AddCompanyDetailsComponent } from './add-company-details/add-company-details.component';
+import { AddStockComponent } from './add-stock/add-stock.component';
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import { CookieService } from 'ngx-cookie-service';
     OrderConfirmationComponent,
     RunningOrderComponent,
     GetOrdersComponent,
-    LoginComponentComponent
+    LoginComponentComponent,
+    AddCompanyDetailsComponent,
+    AddStockComponent
   ],
   imports: [
     BrowserModule,

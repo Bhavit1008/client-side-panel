@@ -12,6 +12,7 @@ import { LoginComponentComponent } from './login-component/login-component.compo
 import { CookieService } from 'ngx-cookie-service';
 import { AddCompanyDetailsComponent } from './add-company-details/add-company-details.component';
 import { AddStockComponent } from './add-stock/add-stock.component';
+import { AddUserComponent } from './add-user/add-user.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { AddStockComponent } from './add-stock/add-stock.component';
     GetOrdersComponent,
     LoginComponentComponent,
     AddCompanyDetailsComponent,
-    AddStockComponent
+    AddStockComponent,
+    AddUserComponent
   ],
   imports: [
     BrowserModule,

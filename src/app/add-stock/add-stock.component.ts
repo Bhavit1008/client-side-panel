@@ -86,6 +86,9 @@ postApiCall(data: any){
 
 
 saveStockDetails(form: any){
+  this.isSubmitted = true
+  this.stockSuccessDialog = false;
+  this.stockFailureDialog = false;
   this.prepareResForNewStock(form);
   this.disableControl();
   this.postApiCall(this.responseObj).subscribe(data => {

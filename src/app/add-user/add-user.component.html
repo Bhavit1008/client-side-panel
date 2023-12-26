@@ -1,0 +1,40 @@
+<div class="container col-md-12 col-xs-3">
+    <form #userForm="ngForm"  style="padding: 2px;" [formGroup]="userFormGroup">
+        <div>
+            <h5>Add User Details</h5>
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" class="form-control" name="fullName" formControlName="fullName" required>
+            </div>
+            <div class="form-group">
+                <label>password</label>
+                <input type="text" class="form-control" name="password" formControlName="password" required>
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" class="form-control" name="phoneNumber" formControlName="phoneNumber" required>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" class="form-control" name="emailAddress" formControlName="emailAddress" required>
+            </div>
+            <div class="form-group">
+                <label for="productCategory">Product Category</label>
+                <select 
+                    name="productCategory" 
+                    id="productCategory" 
+                    class="form-control"
+                    formControlName="productCategory">
+                    <option *ngFor="let product of productCategories" [value]="product.label">{{ product.label }}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Designation</label>
+                <input type="text" class="form-control" name="designation" formControlName="designation" required>
+            </div>
+            <div class="form-group row col-md-3">
+                <button class="btn btn-primary btn-block" (click)="saveUserDetails(userForm)">Save</button>
+              </div>
+        </div>
+    </form>
+</div>

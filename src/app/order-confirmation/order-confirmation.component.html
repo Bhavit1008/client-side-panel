@@ -86,7 +86,14 @@
         </div>
         <div class="form-group">
           <label>Secondary Manager</label>
-          <input type="text" class="form-control" name="secondaryManager" formControlName="secondaryManager" [disabled]="isSubmitted" required>
+          <select 
+              name="secondaryManager" 
+              id="secondaryManager" 
+              class="form-control"
+              [disabled]="isSubmitted"
+              formControlName="secondaryManager">
+              <option *ngFor="let u of users" [value]="u.fullName">{{ u.fullName }}</option>
+          </select>
         </div>
           <div class="row col-md-8">
             <div class="form-group" style="margin-right: 16px;">

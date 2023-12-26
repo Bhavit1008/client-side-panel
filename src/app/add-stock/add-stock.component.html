@@ -1,11 +1,14 @@
 <div class="container col-md-12 col-xs-3">
     <div class="container">
+      <div class="form-group spinner-grow spinner-grow-md" *ngIf="isSubmitted" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
         <div class="alert alert-success" *ngIf="stockSuccessDialog" role="alert">
           Details submitted successfully.
             <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
         </div>
         <div class="alert alert-danger" *ngIf="stockFailureDialog" role="alert">
-          Details not submitted, please tr again.
+          Details not submitted, please try again.
             <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
         </div>
     <form #stockForm="ngForm"  style="padding: 2px;" [formGroup]="stockFormGroup">

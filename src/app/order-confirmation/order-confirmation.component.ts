@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { RunningOrder } from '../models/RunningOrder';
 import { ActivatedRoute } from '@angular/router'
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Observable, firstValueFrom } from 'rxjs';
+import { async } from '@angular/core/testing';
 
 export class User {
   public orderName!: string;
@@ -18,7 +20,12 @@ export class User {
 })
 export class OrderConfirmationComponent implements OnInit {
 
-  constructor(private httpClient: HttpClient,private router:Router,private route:ActivatedRoute,private form:FormBuilder) { }
+  constructor(private httpClient: HttpClient,private router:Router,private route:ActivatedRoute,private form:FormBuilder) { 
+    var response = this.getUsers().then((res) => {
+      console.log('fetched response ::', res);
+      this.users = res;
+  });
+  }
   
   //Declarations
   isRunningOrder=false;
@@ -34,6 +41,7 @@ export class OrderConfirmationComponent implements OnInit {
   currentD = new Date();
   model = new NewOrders('','','','','','','','','','','','','','','','','','','');
   runningOrderModel = new RunningOrder('','','','','','','','','','');
+  users:any;
 
   responseObj: any = {
     id: '',
@@ -88,6 +96,21 @@ ngOnInit(): void {
       this.setEditValues(this.dataForEdit);
     }
 }
+
+
+ async getUsers(): Promise<any[]>{
+    console.log('api called')
+    return firstValueFrom(this.httpClient.get<any[]>('http://localhost:8080/getUsers',{
+      headers:
+          new HttpHeaders(
+            {
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest',
+            }
+          )
+    }))
+  }
+
 
 get f(){return this.orderCompForm.controls;}
 

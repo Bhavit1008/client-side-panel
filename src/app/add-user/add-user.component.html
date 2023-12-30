@@ -29,8 +29,8 @@
             </div>
             <div class="form-group">
                 <label>Phone Number: </label>
-                <input type="text" class="form-control" name="phoneNumber" formControlName="phoneNumber" required minlength="10" maxlength="10">
-                <span *ngIf="userForm.invalid && ( userFormGroup.get('phoneNumber')?.touched && !userFormGroup.get('phoneNumber')?.dirty)">
+                <input type="number" class="form-control" name="phoneNumber" formControlName="phoneNumber" required minlength="10" maxlength="10">
+                <span *ngIf="userForm.invalid || ( userFormGroup.get('phoneNumber')?.touched && !userFormGroup.get('phoneNumber')?.dirty)">
                     <span class="error" ng-show="userForm.phoneNumber.$error.required">
                     <i>Phone number required! </i><br></span>            
                 </span>

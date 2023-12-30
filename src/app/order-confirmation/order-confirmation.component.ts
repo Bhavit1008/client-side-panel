@@ -223,14 +223,14 @@ saveNewOrder(form: any){
     if(res!= null && res != undefined && res.status == '200'){
         console.log('success',res);
         this.orderSuccessDialog = true;
-        this.isSubmitted = false;
-        this.enableControl();
+        this.isSubmitted = false;  
     }
     else{
       this.orderFailureDialog = true;
-      this.isSubmitted = false
-      this.enableControl();
+      this.isSubmitted = false;
     }
+    this.enableControl();
+    //this.resetControl();
   })
 }
 
@@ -291,6 +291,8 @@ saveRunningOrder(form: any){
       this.isSubmitted = false;
       this.orderFailureDialog = true;
     }
+    this.enableControl();
+    //this.resetControl();
   })
 }
   

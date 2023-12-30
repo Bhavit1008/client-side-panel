@@ -1,40 +1,77 @@
 <div class="container col-md-12 col-xs-3">
-    <form #userForm="ngForm"  style="padding: 2px;" [formGroup]="userFormGroup">
+    <div class="container">
+          <div class="alert alert-success" *ngIf="userSuccessDialog" role="alert">
+            User details submitted successfully.
+              <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+          </div>
+          <div class="alert alert-danger" *ngIf="userFailureDialog" role="alert">
+           User details not submitted, please try again.
+              <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+          </div>
+    <form #userForm="ngForm"  style="padding: 2px;" [formGroup]="userFormGroup" novalidate>
         <div>
             <h5>Add User Details</h5>
             <div class="form-group">
-                <label>Full Name</label>
+                <label>Full Name: </label>
                 <input type="text" class="form-control" name="fullName" formControlName="fullName" required>
+                <span *ngIf="userForm.invalid && ( userFormGroup.get('fullName')?.touched && !userFormGroup.get('fullName')?.dirty)">
+                    <span class="error" ng-show="userForm.fullName.$error.required">
+                    <i>Full name required!</i></span>                
+                </span>
             </div>
             <div class="form-group">
-                <label>password</label>
+                <label>Password: </label>
                 <input type="text" class="form-control" name="password" formControlName="password" required>
+                <span *ngIf="userForm.invalid && ( userFormGroup.get('password')?.touched && !userFormGroup.get('password')?.dirty)">
+                    <span class="error" ng-show="userForm.password.$error.required">
+                    <i>Password required!</i></span>                
+                </span>
             </div>
             <div class="form-group">
-                <label>Phone Number</label>
-                <input type="text" class="form-control" name="phoneNumber" formControlName="phoneNumber" required>
+                <label>Phone Number: </label>
+                <input type="text" class="form-control" name="phoneNumber" formControlName="phoneNumber" required minlength="10" maxlength="10">
+                <span *ngIf="userForm.invalid && ( userFormGroup.get('phoneNumber')?.touched && !userFormGroup.get('phoneNumber')?.dirty)">
+                    <span class="error" ng-show="userForm.phoneNumber.$error.required">
+                    <i>Phone number required! </i><br></span>            
+                </span>
+                <span *ngIf="userForm.invalid && userFormGroup.get('phoneNumber')?.dirty">
+                    <span class="error" ng-show="userForm.phoneNumber.$error.minlength || userForm.phoneNumber.$error.maxlength">
+                    <i>Phone number must be of 10 digits</i></span>             
+                </span>
             </div>
             <div class="form-group">
-                <label>Email</label>
-                <input type="text" class="form-control" name="emailAddress" formControlName="emailAddress" required>
+                <label>Email: </label>
+                <input type="email" class="form-control" name="emailAddress" formControlName="emailAddress" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                <span *ngIf="userForm.invalid && userFormGroup.get('emailAddress')?.dirty">
+                    <span class="error" ng-show="userForm.emailAddress.$error.pattern">
+                    <i>Please enter a valid email address</i></span>             
+                </span>
             </div>
             <div class="form-group">
-                <label for="productCategory">Product Category</label>
+                <label for="productCategory">Product Category: </label>
                 <select 
                     name="productCategory" 
                     id="productCategory" 
                     class="form-control"
-                    formControlName="productCategory">
+                    formControlName="productCategory"
+                    required>
                     <option *ngFor="let product of productCategories" [value]="product.label">{{ product.label }}</option>
-                </select>
+            </select>
+                <span *ngIf="userForm.invalid && ( userFormGroup.get('productCategory')?.touched && !userFormGroup.get('productCategory')?.dirty)">
+                    <span class="error" ng-show="userForm.productCategory.$error.required">
+                    <i>Please add a product category</i></span>                
+                </span>
             </div>
             <div class="form-group">
-                <label>Designation</label>
-                <input type="text" class="form-control" name="designation" formControlName="designation" required>
+                <label>Designation: </label>
+                <input type="text" class="form-control" name="designation" formControlName="designation">
             </div>
             <div class="form-group row col-md-3">
-                <button class="btn btn-primary btn-block" (click)="saveUserDetails(userForm)">Save</button>
-              </div>
+                <button class="btn btn-primary btn-block" (click)="saveUserDetails(userForm)" [disabled]="userForm.invalid">Save</button>
+            </div>
+            <div class="form-group spinner-grow spinner-grow-md" *ngIf="isSubmitted" role="status">
+                <span class="sr-only">Saving user...</span>
+            </div>
         </div>
     </form>
 </div>

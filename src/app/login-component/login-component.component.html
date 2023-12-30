@@ -1,15 +1,23 @@
 <div class="container" *ngIf="!loginSuccess">
   <form #loginForm="ngForm" [formGroup]="loginCompForm">
     <div class="form-group">
-      <label>Login id</label>
+      <label>Login id: </label>
       <input type="text" class="form-control" name="loginId" formControlName="loginId" required>
+      <span *ngIf="loginForm.invalid && ( loginCompForm.get('loginId')?.touched && !loginCompForm.get('loginId')?.dirty)">
+        <span class="error" ng-show="loginForm.loginId.$error.required">
+        <i>Login id required!</i></span>                
+      </span>
     </div>
     <div class="form-group">
-      <label>Password</label>
+      <label>Password: </label>
       <input type="text" class="form-control" name="password" formControlName="password" required>
+      <span *ngIf="loginForm.invalid && ( loginCompForm.get('password')?.touched && !loginCompForm.get('password')?.dirty)">
+        <span class="error" ng-show="loginForm.password.$error.required">
+        <i>Password required!</i></span>                
+      </span>
     </div>
     <div class="form-group">
-      <button class="btn btn-primary btn-block" (click)="login(loginForm)">login</button>
+      <button class="btn btn-primary btn-block" (click)="login(loginForm)" [disabled]="loginCompForm.invalid">Login</button>
     </div>
   </form>
 </div>

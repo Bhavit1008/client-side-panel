@@ -1,99 +1,185 @@
 <div class="container">
   <div class="alert alert-success" *ngIf="orderSuccessDialog" role="alert">
-    Details submitted successfully.
+    Order details submitted successfully.
       <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
   </div>
   <div class="alert alert-danger" *ngIf="orderFailureDialog" role="alert">
-    Details not submitted, please tr again.
+    Order details not submitted, please try again.
       <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
   </div>
   <form #userForm="ngForm"  style="padding: 2px;" [formGroup]="orderCompForm">
     <div *ngIf="isNewOrder">
       <h5>New Order Confirmation</h5>
       <div class="form-group">
-          <label for="productCategory">Product Category</label>
+          <label for="productCategory">Product Category: </label>
           <select 
               name="productCategory" 
               id="productCategory" 
               class="form-control"
               [disabled]="isSubmitted"
-              formControlName="productCategory">
+              formControlName="productCategory"
+              required>
               <option *ngFor="let product of productCategories" [value]="product.label">{{ product.label }}</option>
           </select>
+          <span *ngIf="userForm.invalid && ( orderCompForm.get('productCategory')?.touched && !orderCompForm.get('productCategory')?.dirty)">
+            <span class="error" ng-show="userForm.productCategory.$error.required">
+            <i>Please select a product category</i></span>                
+          </span>
       </div>
       <div class="form-group">
-        <label>Party Name</label>
+        <label>Party Name: </label>
         <input type="text" class="form-control" name="partyName" formControlName="partyName"  [disabled]="isSubmitted" required>
+        <span *ngIf="userForm.invalid && ( orderCompForm.get('partyName')?.touched && !orderCompForm.get('partyName')?.dirty)">
+          <span class="error" ng-show="userForm.partyName.$error.required">
+          <i>Please mention the party name</i></span>                
+        </span>
       </div>
       <div class="form-group">
-          <label>Delivery City</label>
+          <label>Delivery City: </label>
           <input type="text" class="form-control" name="deliveryCity" formControlName="deliveryCity" [disabled]="isSubmitted" required>
+          <span *ngIf="userForm.invalid && ( orderCompForm.get('deliveryCity')?.touched && !orderCompForm.get('deliveryCity')?.dirty)">
+            <span class="error" ng-show="userForm.deliveryCity.$error.required">
+            <i>Delivery city required</i></span>                
+          </span>
         </div>
+
         <div class="form-group">
-          <label>Product Code</label>
+          <label>Product Code: </label>
           <input type="text" class="form-control" name="productCode" formControlName="productCode" [disabled]="isSubmitted" required>
+          <span *ngIf="userForm.invalid && ( orderCompForm.get('productCode')?.touched && !orderCompForm.get('productCode')?.dirty)">
+            <span class="error" ng-show="userForm.productCode.$error.required">
+            <i>Product code required</i></span>                
+          </span>
         </div>
+        
         <div class="form-group">
-          <label>Product Description</label>
+          <label>Product Description: </label>
           <input type="text" class="form-control" name="productDescription" formControlName="productDescription" [disabled]="isSubmitted" required>
+          <span *ngIf="userForm.invalid && ( orderCompForm.get('productDescription')?.touched && !orderCompForm.get('productDescription')?.dirty)">
+            <span class="error" ng-show="userForm.productDescription.$error.required">
+            <i>Product description required</i></span>                
+          </span>
         </div>
         <div class="form-group">
-          <label for="productCategory">Unit</label>
+          <label for="productCategory">Unit: </label>
           <select 
               name="unit" 
               id="unit" 
               class="form-control"
               [disabled]="isSubmitted"
-              formControlName="unit">
+              formControlName="unit"
+              required>
               <option *ngFor="let u of units" [value]="u.label">{{ u.label }}</option>
           </select>
+          <span *ngIf="userForm.invalid && ( orderCompForm.get('unit')?.touched && !orderCompForm.get('unit')?.dirty)">
+            <span class="error" ng-show="userForm.unit.$error.required">
+            <i>Please select a unit</i></span>                
+          </span>
       </div>
         <div class="form-group">
-          <label>Length</label>
-          <input type="text" type="number" class="form-control" name="length" formControlName="length" [disabled]="isSubmitted" required>
+          <label>Length: </label>
+          <input type="number" type="number" class="form-control" name="length" formControlName="length" [disabled]="isSubmitted" required min="1">
+          <span *ngIf="userForm.invalid && ( orderCompForm.get('length')?.touched && !orderCompForm.get('length')?.dirty)">
+            <span class="error" ng-show="userForm.length.$error.required">
+            <i>Length required! </i><br></span>                
+          </span>
+          <span *ngIf="userForm.invalid && orderCompForm.get('length')?.dirty">
+            <span class="error" ng-show="stockForm.length.$error.min">
+            <i>Length must be atleast 1</i></span>
+          </span>
         </div>
         <div class="form-group">
-          <label>Width</label>
-          <input type="text" type="number" class="form-control" name="width" formControlName="width" [disabled]="isSubmitted" required>
+          <label>Width: </label>
+          <input type="number" type="number" class="form-control" name="width" formControlName="width" [disabled]="isSubmitted" required min="1">
+            <span *ngIf="userForm.invalid && ( orderCompForm.get('width')?.touched && !orderCompForm.get('width')?.dirty)">
+            <span class="error" ng-show="userForm.width.$error.required">
+            <i>Width required! </i><br></span>                
+          </span>
+          <span *ngIf="userForm.invalid && orderCompForm.get('width')?.dirty">
+            <span class="error" ng-show="stockForm.width.$error.min">
+            <i>Width must be atleast 1</i></span>
+          </span>
         </div>
         <div class="form-group">
-          <label>Height</label>
-          <input type="text" type="number" class="form-control" name="height" formControlName="height" [disabled]="isSubmitted" required>
+          <label>Height: </label>
+          <input type="number" type="number" class="form-control" name="height" formControlName="height" [disabled]="isSubmitted" required min="1">
+          <span *ngIf="userForm.invalid && ( orderCompForm.get('height')?.touched && !orderCompForm.get('height')?.dirty)">
+            <span class="error" ng-show="userForm.height.$error.required">
+            <i>Height required! </i><br></span>           
+          </span>
+          <span *ngIf="orderCompForm.get('height')?.dirty">
+            <span class="error" ng-show="stockForm.height.$error.min">
+            <i>Height must be atleast 1</i></span>
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label>Quantity: </label>
+          <input type="number" type="number" class="form-control" name="quantity" formControlName="quantity" [disabled]="isSubmitted" required min="1">
+          <span *ngIf="userForm.invalid && ( orderCompForm.get('quantity')?.touched && !orderCompForm.get('quantity')?.dirty)">
+            <span class="error" ng-show="userForm.quantity.$error.required">
+            <i>Quantity required! </i><br></span>                
+          </span>
+          <span *ngIf="userForm.invalid && orderCompForm.get('quantity')?.dirty">
+            <span class="error" ng-show="stockForm.quantity.$error.min">
+            <i>Quanity must be atleast 1</i></span>
+          </span>
         </div>
         <div class="form-group">
-          <label>Quantity</label>
-          <input type="text" type="number" class="form-control" name="quantity" formControlName="quantity" [disabled]="isSubmitted" required>
-        </div>
-        <div class="form-group">
-          <label>Quality</label>
+          <label>Quality: </label>
           <input type="text" class="form-control" name="quality" formControlName="quality" [disabled]="isSubmitted" required>
+          <span *ngIf="userForm.invalid && ( orderCompForm.get('quality')?.touched && !orderCompForm.get('quality')?.dirty)">
+            <span class="error" ng-show="userForm.quality.$error.required">
+            <i>Quality required</i></span>                
+          </span>
         </div>
         <div class="form-group">
-          <label>Polish</label>
+          <label>Polish: </label>
           <input type="text" class="form-control" name="polish" formControlName="polish" [disabled]="isSubmitted" required>
+          <span *ngIf="userForm.invalid && ( orderCompForm.get('polish')?.touched && !orderCompForm.get('polish')?.dirty)">
+            <span class="error" ng-show="userForm.polish.$error.required">
+            <i>Polish required</i></span>                
+          </span>
         </div>
         <div class="form-group">
-          <label>Shape</label>
+          <label>Shape: </label>
           <input type="text" class="form-control" name="shape" formControlName="shape" [disabled]="isSubmitted" required>
+          <span *ngIf="userForm.invalid && ( orderCompForm.get('shape')?.touched && !orderCompForm.get('shape')?.dirty)">
+            <span class="error" ng-show="userForm.shape.$error.required">
+            <i>Shape required</i></span>                
+          </span>
         </div>
         <div class="form-group">
-          <label>DeliveryDate</label>
+          <label>DeliveryDate: </label>
           <input type="date" [ngModel] ="currentD | date:'yyyy-MM-dd'" id="deliveryDate" class="form-control" name="deliveryDate" formControlName="deliveryDate" [disabled]="isSubmitted" required>
+          <span *ngIf="userForm.invalid && ( orderCompForm.get('deliveryDate')?.touched && !orderCompForm.get('deliveryDate')?.dirty)">
+            <span class="error" ng-show="userForm.deliveryDate.$error.required">
+            <i>Please select a delivery Date </i></span>                
+          </span>
         </div>
         <div class="form-group">
           <label>Color</label>
           <input type="text" class="form-control" name="color" formControlName="color" [disabled]="isSubmitted" required>
+          <span *ngIf="userForm.invalid && ( orderCompForm.get('color')?.touched && !orderCompForm.get('color')?.dirty)">
+            <span class="error" ng-show="userForm.color.$error.required">
+            <i>Color required </i></span>                
+          </span>
         </div>
         <div class="form-group">
-          <label>Secondary Manager</label>
+          <label>Secondary Manager: </label>
           <select 
               name="secondaryManager" 
               id="secondaryManager" 
               class="form-control"
               [disabled]="isSubmitted"
-              formControlName="secondaryManager">
+              formControlName="secondaryManager"
+              required>
               <option *ngFor="let u of users" [value]="u.fullName">{{ u.fullName }}</option>
-          </select>
+        </select>
+          <span *ngIf="userForm.invalid && ( orderCompForm.get('secondaryManager')?.touched && !orderCompForm.get('secondaryManager')?.dirty)">
+            <span class="error" ng-show="userForm.secondaryManager.$error.required">
+            <i>Please mention the Secondary Manager</i></span>                
+          </span>
         </div>
           <div class="row col-md-8">
             <div class="form-group" style="margin-right: 16px;">
@@ -113,32 +199,64 @@
   <div class="container" *ngIf="isRunningOrder">
     <h5>Running Order Details</h5>
     <div class="form-group">
-      <label>Party Name</label>
+      <label>Party Name: </label>
       <input type="text" class="form-control" name="partyName" formControlName="partyName" required>
+      <span *ngIf="userForm.invalid && ( orderCompForm.get('partyName')?.touched && !orderCompForm.get('partyName')?.dirty)">
+        <span class="error" ng-show="userForm.partyName.$error.required">
+        <i>Please mention the party name</i></span>                
+      </span>
     </div>
       <div class="form-group">
-        <label>Product Code</label>
+        <label>Product Code: </label>
         <input type="text" class="form-control" name="productCode" formControlName="productCode" required>
+        <span *ngIf="userForm.invalid && ( orderCompForm.get('productCode')?.touched && !orderCompForm.get('productCode')?.dirty)">
+          <span class="error" ng-show="userForm.productCode.$error.required">
+          <i>Product code required</i></span>                
+        </span>
       </div>
       <div class="form-group">
-        <label>Product Description</label>
+        <label>Product Description: </label>
         <input type="text" class="form-control" name="productDescription" formControlName="productDescription" required>
+        <span *ngIf="userForm.invalid && ( orderCompForm.get('productDescription')?.touched && !orderCompForm.get('productDescription')?.dirty)">
+          <span class="error" ng-show="userForm.productDescription.$error.required">
+          <i>Product description required</i></span>                
+        </span>
       </div>
       <div class="form-group">
-        <label>Total Quantity</label>
-        <input type="text" type="number" class="form-control" name="quantity" formControlName="quantity" required>
+        <label>Total Quantity: </label>
+        <input type="text" type="number" class="form-control" name="quantity" formControlName="quantity" required min=1>
+        <span *ngIf="userForm.invalid && ( orderCompForm.get('quantity')?.touched && !orderCompForm.get('quantity')?.dirty)">
+          <span class="error" ng-show="userForm.quantity.$error.required">
+          <i>Total quantity required! </i><br></span>                
+        </span>
+        <span *ngIf="orderCompForm.get('quantity')?.dirty">
+          <span class="error" ng-show="orderCompForm.quantity.$error.min">
+          <i>Total quantity must be atleast 1</i></span>
+        </span>
       </div>
       <div class="form-group">
-        <label>Developed Quantity</label>
+        <label>Developed Quantity: </label>
         <input type="text" type="number" class="form-control" (ngModelChange)="dispatchedQuatityChange($event)" name="developedQuantity" formControlName="developedQuantity" required>
+        <span *ngIf="userForm.invalid && ( orderCompForm.get('developedQuantity')?.touched && !orderCompForm.get('developedQuantity')?.dirty)">
+          <span class="error" ng-show="userForm.quantity.$error.required">
+          <i>Developed quantity required! </i><br></span>                
+        </span>
       </div>
       <div class="form-group">
-        <label>Dispatched Quantity</label>
+        <label>Dispatched Quantity: </label>
         <input type="text" type="number" class="form-control"  name="dispatchedQuantity" formControlName="dispatchedQuantity" required>
+        <span *ngIf="userForm.invalid && ( orderCompForm.get('dispatchedQuantity')?.touched && !orderCompForm.get('dispatchedQuantity')?.dirty)">
+          <span class="error" ng-show="userForm.dispatchedQuantity.$error.required">
+          <i>Dispatched quantity required! </i><br></span>                
+        </span>
       </div>
       <div class="form-group">
-        <label>Left Quantity</label>
+        <label>Left Quantity: </label>
         <input type="text" type="number" class="form-control" name="leftQuantity"  formControlName="leftQuantity" required>
+        <span *ngIf="userForm.invalid && ( orderCompForm.get('leftQuantity')?.touched && !orderCompForm.get('leftQuantity')?.dirty)">
+          <span class="error" ng-show="userForm.leftQuantity.$error.required">
+          <i>Left quantity required! </i><br></span>                
+        </span>
       </div>
       
       <div class="form-group">
@@ -148,9 +266,14 @@
             id="status" 
             class="form-control"
             formControlName="status"
+            required
             >
             <option *ngFor="let stat of status" [value]="stat.label">{{ stat.label }}</option>
         </select>
+        <span *ngIf="userForm.invalid && orderCompForm.get('status')?.dirty">
+          <span class="error" ng-show="stockForm.status.$error.min">
+          <i>Status required</i></span>
+        </span>
     </div>
     <div class="row col-md-8">
       <div class="form-group" style="margin-right: 16px;">

@@ -11,10 +11,13 @@ import { Router } from '@angular/router';
 })
 export class AddCompanyDetailsComponent {
 
-  isSubmitted = false;
   public companyFormGroup!: FormGroup;
   isNewCompany = true;
   responseObj = {}
+  isSubmitted = false
+  companySuccessDialog = false
+  companyFailureDialog = false
+
 
   constructor(private httpClient: HttpClient,private router:Router,private route:ActivatedRoute,private form:FormBuilder) { }
 
@@ -51,6 +54,8 @@ prepareResForNewCompany(form: any){
     contactNumber: form.value.contactNumber,
     emailAddress: form.value.emailAddress,
   }
+
+  console.log('responseObj for new Company form :: ',this.responseObj);
 }
 
 postApiCall(data: any){
@@ -62,19 +67,70 @@ postApiCall(data: any){
 }
 
 saveCompanyDetails(form: any){
+  this.isSubmitted = true
+  this.companySuccessDialog = false;
+  this.companyFailureDialog = false;
   this.prepareResForNewCompany(form);
-  console.log('responseObj for running order form :: ',this.responseObj);
+  this.disableControl();
+  
   this.postApiCall(this.responseObj).subscribe(data => {
     let res = JSON.parse(JSON.stringify(data))
     console.log('data',res.status)
     if(res.status == '200'){
         console.log('success',res);
         this.isSubmitted = false;
+        this.companySuccessDialog = true;
     }
     else{
       this.isSubmitted = false;
+      this.companyFailureDialog = true;
     }
+    this.enableControl();
+    //this.resetControl();
   })
+
+  let scrollToTop = window.setInterval(() => {
+    let pos = window.pageYOffset;
+    if (pos > 0) {
+        window.scrollTo(0, pos - 20); // how far to scroll on each step
+    } else {
+        window.clearInterval(scrollToTop);
+    }
+}, 16);
+
+}
+
+enableControl(){
+  this.companyFormGroup.get('companyName')?.enable();
+  this.companyFormGroup.get('companyOwnerName')?.enable();
+  this.companyFormGroup.get('companyAddress')?.enable();
+  this.companyFormGroup.get('state')?.enable();
+  this.companyFormGroup.get('zipCode')?.enable();
+  this.companyFormGroup.get('gstNumber')?.enable();
+  this.companyFormGroup.get('contactNumber')?.enable();
+  this.companyFormGroup.get('emailAddress')?.enable();  
+}
+
+disableControl(){
+  this.companyFormGroup.get('companyName')?.disable();
+  this.companyFormGroup.get('companyOwnerName')?.disable();
+  this.companyFormGroup.get('companyAddress')?.disable();
+  this.companyFormGroup.get('state')?.disable();
+  this.companyFormGroup.get('zipCode')?.disable();
+  this.companyFormGroup.get('gstNumber')?.disable();
+  this.companyFormGroup.get('contactNumber')?.disable();
+  this.companyFormGroup.get('emailAddress')?.disable();
+}
+
+resetControl(){
+  this.companyFormGroup.get('companyName')?.reset();
+  this.companyFormGroup.get('companyOwnerName')?.reset();
+  this.companyFormGroup.get('companyAddress')?.reset();
+  this.companyFormGroup.get('state')?.reset();
+  this.companyFormGroup.get('zipCode')?.reset();
+  this.companyFormGroup.get('gstNumber')?.reset();
+  this.companyFormGroup.get('contactNumber')?.reset();
+  this.companyFormGroup.get('emailAddress')?.reset();  
 }
 
 }

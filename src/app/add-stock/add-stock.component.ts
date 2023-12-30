@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
@@ -91,20 +91,21 @@ saveStockDetails(form: any){
   this.stockFailureDialog = false;
   this.prepareResForNewStock(form);
   this.disableControl();
+
   this.postApiCall(this.responseObj).subscribe(data => {
     let res = JSON.parse(JSON.stringify(data))
     console.log('data',res.status)
     if(res.status == '200'){
         console.log('success',res);
         this.isSubmitted = false;
-        this.stockSuccessDialog = true;
-        this.enableControl();
+        this.stockSuccessDialog = true;  
     }
     else{
       this.stockFailureDialog = true;
       this.isSubmitted = false;
-      this.enableControl();
     }
+    this.enableControl();
+   // this.resetControl;
   })
 
   let scrollToTop = window.setInterval(() => {

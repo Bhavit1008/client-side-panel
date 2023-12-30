@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
@@ -24,6 +24,10 @@ export class LoginComponentComponent {
       loginId: new FormControl(''),
       password: new FormControl('')
     })
+  }
+
+  get f(){
+    return this.loginCompForm.controls;
   }
 
   login(form: any){

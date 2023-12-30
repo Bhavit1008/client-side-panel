@@ -1,72 +1,110 @@
 <div class="container col-md-12 col-xs-3">
     <div class="container">
-      <div class="form-group spinner-grow spinner-grow-md" *ngIf="isSubmitted" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
         <div class="alert alert-success" *ngIf="stockSuccessDialog" role="alert">
-          Details submitted successfully.
+          Stock details submitted successfully.
             <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
         </div>
         <div class="alert alert-danger" *ngIf="stockFailureDialog" role="alert">
-          Details not submitted, please try again.
+          Stock details not submitted, please try again.
             <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
         </div>
     <form #stockForm="ngForm"  style="padding: 2px;" [formGroup]="stockFormGroup">
         <div>
           <h5>Add Stock details</h5>
           <div class="form-group">
-            <label for="productCategory">Product Category</label>
+            <label for="productCategory">Product Category: </label>
             <select 
                 name="productCategory" 
                 id="productCategory" 
                 class="form-control"
                 [disabled]="isSubmitted"
-                formControlName="productCategory">
+                formControlName="productCategory"
+                required>
                 <option *ngFor="let product of productCategories" [value]="product.label">{{ product.label }}</option>
             </select>
+            <span *ngIf="stockForm.invalid && ( stockFormGroup.get('productCategory')?.touched && !stockFormGroup.get('productCategory')?.dirty)">
+              <span class="error" ng-show="stockForm.productCategory.$error.required">
+              <i>Please select a product category</i></span>                
+            </span>
         </div>
           <div class="form-group">
-              <label>Product code</label>
+              <label>Product code: </label>
               <input type="text" class="form-control" name="productCode" formControlName="productCode" [disabled]="isSubmitted" required>
+              <span *ngIf="stockForm.invalid && ( stockFormGroup.get('productCode')?.touched && !stockFormGroup.get('productCode')?.dirty)">
+                <span class="error" ng-show="stockForm.productCode.$error.required">
+                <i>Product code required</i></span>                
+              </span>
             </div>
             <div class="form-group">
-              <label>Product quantity</label>
-              <input type="text" class="form-control" name="productQuantity" formControlName="productQuantity" [disabled]="isSubmitted" required>
+              <label>Product quantity: </label>
+              <input type="number" class="form-control" name="productQuantity" formControlName="productQuantity" [disabled]="isSubmitted" required min="1">
+              <span *ngIf="stockForm.invalid && ( stockFormGroup.get('productQuantity')?.touched && !stockFormGroup.get('productQuantity')?.dirty)">
+                <span class="error" ng-show="stockForm.productQuantity.$error.required">
+                <i>Product quantity required! </i><br></span>                
+              </span>
+              <span *ngIf="stockForm.invalid && stockFormGroup.get('productQuantity')?.dirty">
+                <span class="error" ng-show="stockForm.productQuantity.$error.min">
+                <i>Product quantity must be atleast 1</i></span>
+              </span>
             </div>
             <div class="form-group">
-              <label>Date of stocking</label>
+              <label>Date of stocking: </label>
               <input type="date" class="form-control" name="dateOfStocking" formControlName="dateOfStocking" [disabled]="isSubmitted" required>
+              <span *ngIf="stockForm.invalid && ( stockFormGroup.get('dateOfStocking')?.touched && !stockFormGroup.get('dateOfStocking')?.dirty)">
+                <span class="error" ng-show="stockForm.dateOfStocking.$error.required">
+                <i>Mention the date of stocking</i></span>                
+              </span>
             </div>
             <div class="form-group">
-                <label for="warehouse">Warehouse</label>
+                <label for="warehouse">Warehouse: </label>
                 <select 
                     name="warehouse" 
                     id="warehouse" 
                     class="form-control"
                     [disabled]="isSubmitted"
-                    formControlName="warehouse">
+                    formControlName="warehouse"
+                    required>
                     <option *ngFor="let wh of warehouse" [value]="wh.label">{{ wh.label }}</option>
                 </select>
+                <span *ngIf="stockForm.invalid && ( stockFormGroup.get('warehouse')?.touched && !stockFormGroup.get('warehouse')?.dirty)">
+                  <span class="error" ng-show="stockForm.warehouse.$error.required">
+                  <i>Please select a warehouse</i></span>                
+                </span>
             </div>
             <div class="form-group">
-              <label>Product location</label>
+              <label>Product location: </label>
               <input type="text" class="form-control" name="productLocation" formControlName="productLocation" [disabled]="isSubmitted" required>
+              <span *ngIf="stockForm.invalid && ( stockFormGroup.get('productLocation')?.touched && !stockFormGroup.get('productLocation')?.dirty)">
+                <span class="error" ng-show="stockForm.productLocation.$error.required">
+                <i>Product location required</i></span>                
+              </span>
             </div>
             <div class="form-group">
-              <label>Associated manager</label>
+              <label>Associated manager: </label>
               <input  type="text" class="form-control" name="associatedManager" formControlName="associatedManager" [disabled]="isSubmitted" required>
+              <span *ngIf="stockForm.invalid && ( stockFormGroup.get('associatedManager')?.touched && !stockFormGroup.get('associatedManager')?.dirty)">
+                <span class="error" ng-show="stockForm.associatedManager.$error.required">
+                <i>Please specify the associated manager</i></span>                
+              </span>
             </div>
             <div class="form-group">
-              <label>Related party</label>
+              <label>Related party: </label>
               <input  type="text" class="form-control" name="relatedParty" formControlName="relatedParty" [disabled]="isSubmitted" required>
+              <span *ngIf="stockForm.invalid && ( stockFormGroup.get('relatedParty')?.touched && !stockFormGroup.get('relatedParty')?.dirty)">
+                <span class="error" ng-show="stockForm.relatedParty.$error.required">
+                <i>Please specify the related party</i></span>                
+              </span>
             </div> 
             <div class="form-group">
-              <label for="cameraInput" class="btn btn-primary btn-block btn-outlined col-md-3">Capture image</label>
+              <label for="cameraInput" class="btn btn-primary btn-block btn-outlined col-md-3">Capture image: </label>
               <input style="display: none;" type="file" capture="camera" accept="image/*" id="cameraInput" name="cameraInput" (change)="onFileSelected($event)">
               <img id="previewImg"  alt="Captured Image" [src]="image" style="width:150px;height:150px">
             </div> 
             <div class="form-group row col-md-3">
-              <button class="btn btn-primary btn-block" (click)="saveStockDetails(stockForm)">Save</button>
+              <button class="btn btn-primary btn-block" (click)="saveStockDetails(stockForm)" [disabled]="stockForm.invalid">Save</button>
+            </div>
+            <div class="form-group spinner-grow spinner-grow-md" *ngIf="isSubmitted" role="status">
+              <span class="sr-only">Saving stock details...</span>
             </div>
           </div>
       </form>

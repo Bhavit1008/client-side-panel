@@ -1,42 +1,103 @@
+<div class="container col-md-12 col-xs-3">
 <div class="container">
+  <div class="alert alert-success" *ngIf="companySuccessDialog" role="alert">
+    Company details submitted successfully.
+      <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+  </div>
+  <div class="alert alert-danger" *ngIf="companyFailureDialog" role="alert">
+    Company details not submitted, please try again.
+      <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+  </div>
     <form #companyForm="ngForm"  style="padding: 2px;" [formGroup]="companyFormGroup">
         <div *ngIf="isNewCompany">
           <h5>Add Company details</h5>
           <div class="form-group">
-            <label>Company Name</label>
+            <label>Company Name: </label>
             <input type="text" class="form-control" name="companyName" formControlName="companyName"  [disabled]="isSubmitted" required>
+            <span *ngIf="companyForm.invalid && ( companyFormGroup.get('companyName')?.touched && !companyFormGroup.get('companyName')?.dirty)">
+              <span class="error" ng-show="companyForm.companyName.$error.required">
+              <i>Company name required!</i></span>                
+            </span>
           </div>
           <div class="form-group">
-              <label>Company Owner Name</label>
+              <label>Company Owner Name: </label>
               <input type="text" class="form-control" name="companyOwnerName" formControlName="companyOwnerName" [disabled]="isSubmitted" required>
+              <span *ngIf="companyForm.invalid && ( companyFormGroup.get('companyOwnerName')?.touched && !companyFormGroup.get('companyOwnerName')?.dirty)">
+                <span class="error" ng-show="companyForm.companyOwnerName.$error.required">
+                <i>Company owner name required!</i></span>                
+              </span>
             </div>
             <div class="form-group">
-              <label>Company Address</label>
+              <label>Company Address: </label>
               <input type="text" class="form-control" name="companyAddress" formControlName="companyAddress" [disabled]="isSubmitted" required>
+              <span *ngIf="companyForm.invalid && ( companyFormGroup.get('companyAddress')?.touched && !companyFormGroup.get('companyAddress')?.dirty)">
+                <span class="error" ng-show="companyForm.companyAddress.$error.required">
+                <i>Company address required!</i></span>                
+              </span>
             </div>
             <div class="form-group">
-              <label>State</label>
+              <label>State: </label>
               <input type="text" class="form-control" name="state" formControlName="state" [disabled]="isSubmitted" required>
+                <span *ngIf="companyForm.invalid && ( companyFormGroup.get('state')?.touched && !companyFormGroup.get('state')?.dirty)">
+                <span class="error" ng-show="companyForm.state.$error.required">
+                <i>State required!</i></span>                
+              </span>
             </div>
             <div class="form-group">
-              <label>Zip Code</label>
-              <input type="text" class="form-control" name="zipCode" formControlName="zipCode" [disabled]="isSubmitted" required>
+              <label>Zip Code: </label>
+              <input  type="tel" class="form-control" name="zipCode" formControlName="zipCode" [disabled]="isSubmitted" required minlength=6 maxlength=6>
+              <span *ngIf="companyForm.invalid && ( companyFormGroup.get('zipCode')?.touched && !companyFormGroup.get('zipCode')?.dirty)">
+                <span class="error" ng-show="companyForm.contactNumber.$error.required">
+                  <i>Zip code required! </i><br>
+                </span>
+                <span class="error" ng-show="companyForm.contactNumber.$error.minlength">
+                  <i>Zip must be of 6 digits</i>
+                </span>
+              </span>
             </div>
             <div class="form-group">
-              <label>GST Number</label>
-              <input type="text" type="number" class="form-control" name="gstNumber" formControlName="gstNumber" [disabled]="isSubmitted" required>
+              <label>GST Number: </label>
+              <input type="text" type="number" class="form-control" name="gstNumber" formControlName="gstNumber" [disabled]="isSubmitted" required minlength=12 maxlength=12>
+              <span *ngIf="companyForm.invalid && ( companyFormGroup.get('gstNumber')?.touched && !companyFormGroup.get('gstNumber')?.dirty)">
+                <span class="error" ng-show="companyForm.gstNumber.$error.required">
+                  <i>GST number required! </i><br>
+                </span>
+                <span class="error" ng-show="companyForm.gstNumber.$error.minlength">
+                  <i>Length of GST number should be 12</i>
+                </span>
+              </span>
             </div>
             <div class="form-group">
-              <label>Contact Number</label>
-              <input  type="number" class="form-control" name="contactNumber" formControlName="contactNumber" [disabled]="isSubmitted" required>
+              <label>Contact Number: </label>
+              <input  type="tel" class="form-control" name="contactNumber" formControlName="contactNumber" [disabled]="isSubmitted" required minlength=10 maxlength=10>
+              <span *ngIf="companyForm.invalid && ( companyFormGroup.get('contactNumber')?.touched && !companyFormGroup.get('contactNumber')?.dirty)">
+                <span class="error" ng-show="companyForm.contactNumber.$error.required">
+                  <i>Contact number required! </i><br>
+                </span>
+                <span class="error" ng-show="companyForm.contactNumber.$error.minlength">
+                  <i>Number must be of 10 digits</i>
+                </span>
+              </span>
             </div>
             <div class="form-group">
-              <label>EmailAddress</label>
-              <input  type="email" class="form-control" name="emailAddress" formControlName="emailAddress" [disabled]="isSubmitted" required>
+              <label>EmailAddress: </label>
+              <input  type="email" class="form-control" name="emailAddress" formControlName="emailAddress" [disabled]="isSubmitted" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+              <span *ngIf="companyForm.invalid && ( companyFormGroup.get('emailAddress')?.touched && !companyFormGroup.get('emailAddress')?.dirty)">
+                <span class="error" ng-show="companyForm.emailAddress.$error.required">
+                <i>Email address required!</i><br> </span>                
+              </span>
+              <span *ngIf="companyForm.invalid && companyFormGroup.get('emailAddress')?.dirty">
+                <span class="error" ng-show="companyForm.emailAddress.$error.pattern">
+                <i>Please enter a valid email address</i></span>             
+            </span>
             </div> 
             <div class="form-group row col-md-3">
-              <button class="btn btn-primary btn-block" (click)="saveCompanyDetails(companyForm)">Save</button>
+              <button class="btn btn-primary btn-block" (click)="saveCompanyDetails(companyForm)" [disabled]="companyForm.invalid">Save</button>
+            </div>
+            <div class="form-group spinner-grow spinner-grow-md" *ngIf="isSubmitted" role="status">
+              <span class="sr-only">Saving company details...</span>
             </div>
         </div>
       </form>
+</div>
 </div>

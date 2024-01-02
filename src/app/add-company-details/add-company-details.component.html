@@ -43,42 +43,45 @@
                 <i>State required!</i></span>                
               </span>
             </div>
+            </div>
             <div class="form-group">
-              <label>Zip Code: </label>
-              <input  type="tel" class="form-control" name="zipCode" formControlName="zipCode" [disabled]="isSubmitted" required minlength=6 maxlength=6>
+              <label>Zip code: </label>
+              <input type="text" type="text" class="form-control" name="zipCode" formControlName="zipCode" [disabled]="isSubmitted" required minlength=6 maxlength=6>
               <span *ngIf="companyForm.invalid && ( companyFormGroup.get('zipCode')?.touched && !companyFormGroup.get('zipCode')?.dirty)">
-                <span class="error" ng-show="companyForm.contactNumber.$error.required">
-                  <i>Zip code required! </i><br>
-                </span>
-                <span class="error" ng-show="companyForm.contactNumber.$error.minlength">
-                  <i>Zip must be of 6 digits</i>
-                </span>
+                <span class="error" ng-show="companyForm.zipCode.$error.required">
+                <i>Zip code required! </i><br></span>                
+              </span>
+              <span *ngIf="companyFormGroup.get('zipCode')?.invalid && !companyFormGroup.get('zipCode')?.pristine">
+                <span class="error" ng-show="companyForm.zipCode.$error.min">
+                <i>Zip code must be of 6 digits</i></span>
               </span>
             </div>
             <div class="form-group">
               <label>GST Number: </label>
-              <input type="text" type="number" class="form-control" name="gstNumber" formControlName="gstNumber" [disabled]="isSubmitted" required minlength=12 maxlength=12>
+              <input type="text" type="text" class="form-control" name="gstNumber" formControlName="gstNumber" [disabled]="isSubmitted" required minlength=12 maxlength=12>
               <span *ngIf="companyForm.invalid && ( companyFormGroup.get('gstNumber')?.touched && !companyFormGroup.get('gstNumber')?.dirty)">
                 <span class="error" ng-show="companyForm.gstNumber.$error.required">
-                  <i>GST number required! </i><br>
-                </span>
-                <span class="error" ng-show="companyForm.gstNumber.$error.minlength">
-                  <i>Length of GST number should be 12</i>
-                </span>
+                <i>GST number required! </i><br></span>                
+              </span>
+              <span *ngIf="companyFormGroup.get('gstNumber')?.invalid && !companyFormGroup.get('gstNumber')?.pristine">
+                <span class="error" ng-show="companyForm.gstNumber.$error.min">
+                <i>GST number must be of 12 bytes</i></span>
               </span>
             </div>
+
             <div class="form-group">
               <label>Contact Number: </label>
-              <input  type="tel" class="form-control" name="contactNumber" formControlName="contactNumber" [disabled]="isSubmitted" required minlength=10 maxlength=10>
+              <input type="tel" type="text" class="form-control" name="contactNumber" formControlName="contactNumber" [disabled]="isSubmitted" required minlength=10 maxlength=10>
               <span *ngIf="companyForm.invalid && ( companyFormGroup.get('contactNumber')?.touched && !companyFormGroup.get('contactNumber')?.dirty)">
                 <span class="error" ng-show="companyForm.contactNumber.$error.required">
-                  <i>Contact number required! </i><br>
-                </span>
-                <span class="error" ng-show="companyForm.contactNumber.$error.minlength">
-                  <i>Number must be of 10 digits</i>
-                </span>
+                <i>Contact number required! </i><br></span>                
+              </span>
+              <span *ngIf="companyFormGroup.get('contactNumber')?.invalid && !companyFormGroup.get('contactNumber')?.pristine">
+                <span class="error" ng-show="companyForm.contactNumber.$error.min">
+                <i>Contact number must be of 10 digits</i></span>
               </span>
             </div>
+
             <div class="form-group">
               <label>EmailAddress: </label>
               <input  type="email" class="form-control" name="emailAddress" formControlName="emailAddress" [disabled]="isSubmitted" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
@@ -91,13 +94,14 @@
                 <i>Please enter a valid email address</i></span>             
             </span>
             </div> 
+
             <div class="form-group row col-md-3">
               <button class="btn btn-primary btn-block" (click)="saveCompanyDetails(companyForm)" [disabled]="companyForm.invalid">Save</button>
             </div>
             <div class="form-group spinner-grow spinner-grow-md" *ngIf="isSubmitted" role="status">
               <span class="sr-only">Saving company details...</span>
             </div>
-        </div>
+     
       </form>
 </div>
 </div>

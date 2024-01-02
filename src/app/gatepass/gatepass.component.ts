@@ -22,6 +22,7 @@ export class GatepassComponent {
   gatePassFailureDialog = false
   entries : GatePass[] = [];
   datepipe: DatePipe = new DatePipe('en-in');
+  gp?: any;
 
 
   constructor(private sanitizer: DomSanitizer, private httpClient: HttpClient,private router:Router,private route:ActivatedRoute,private form:FormBuilder) { }
@@ -38,6 +39,7 @@ export class GatepassComponent {
       vehicleNumber: new FormControl(''),
       transporterName: new FormControl(''),
       timeEntered: new FormControl(''),
+      timeLeft: new FormControl(''),
       partyName: new FormControl(''),
       items: new FormControl(''),
       manager: new FormControl(''),
@@ -60,16 +62,17 @@ prepareResForNewGatePass(form: any){
     form.value.billNumber,
     form.value.po )
 
-  console.log('Gate pass details added :: ', this.gatepass);
+    //console.log('Gate pass details added :: ', this.gatepass);
 
-  this.entries.push(this.gatepass);
-  console.log('List of Gate pass details :: ', this.entries);
+    this.entries.push(this.gatepass);
+    console.log('List of Gate pass details :: ', this.entries);
+
+  
 }
 
 
 saveGatePassDetails(form: any){
   console.log(" in saveGatePassDetails");
-
   this.prepareResForNewGatePass(form);
   this.resetControl();
 
@@ -81,24 +84,28 @@ saveGatePassDetails(form: any){
             window.clearInterval(scrollToTop);
         }
     }, 16);
-}
 
+    
+  }
 
-// disableControl(){
-//   this.gatePassFormGroup.get('vehicleNumber')?.disable();
- 
-// }
+  deleteGatePass(gatepass: GatePass){
+    //console.log(gatepass);
+    this.entries.forEach( (gatepassItem) =>{
+      if(gatepassItem.po == gatepass.po){
+        this.entries.splice(this.entries.indexOf(gatepass),1);
+      }
+    });
 
-// enableControl(){
-//   this.gatePassFormGroup.get('vehicleNumber')?.enable();
+    //console.log('List of Gate pass details :: ', this.entries);
   
-// }
+  }
+
 
 
 resetControl(){
   this.gatePassFormGroup.get('partyName')?.reset();
   this.gatePassFormGroup.get('items')?.reset();
-    this.gatePassFormGroup.get('billNumber')?.reset();
+  this.gatePassFormGroup.get('billNumber')?.reset();
  }
 
 
@@ -120,7 +127,22 @@ resetForm(){
   this.gatePassFormGroup.get('items')?.reset();
   this.gatePassFormGroup.get('manager')?.reset();
   this.gatePassFormGroup.get('po')?.reset();
- }
+  this.gatePassFormGroup.get('billNumber')?.reset();
+}
+
+
+ setEditValues(gatepass: GatePass){
+  console.log('setEditValues is called');
+  this.gatePassFormGroup.get('vehicleNumber')!.setValue(gatepass.vehicleNumber);
+  this.gatePassFormGroup.get('transporterName')!.setValue(gatepass.transporterName);
+  this.gatePassFormGroup.get('timeEntered')!.setValue(gatepass.timeEntered);
+  this.gatePassFormGroup.get('timeLeft')!.setValue(gatepass.timeLeft);
+  this.gatePassFormGroup.get('partyName')!.setValue(gatepass.partyName);
+  this.gatePassFormGroup.get('items')!.setValue(gatepass.items);
+  this.gatePassFormGroup.get('manager')!.setValue(gatepass.manager);
+  this.gatePassFormGroup.get('po')!.setValue(gatepass.po);
+  this.gatePassFormGroup.get('billNumber')!.setValue(gatepass.billNumber);
+}
 
 
 }

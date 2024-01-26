@@ -66,16 +66,16 @@ saveUserDetails(form:any){
 
   this.postApiCall(this.responseObj).subscribe(data => {
     let res = JSON.parse(JSON.stringify(data))
-    console.log('data',res.status)
+    console.log('data',res)
     if(res.status == '200'){
         console.log('success',res);
         this.isSubmitted = false;
         this.userSuccessDialog = true;    
     }
     else{
-      this.isSubmitted = false;   
+      this.isSubmitted = true;   
       this.userFailureDialog = true;
-      
+      console.log('is submitted in #78::',this.isSubmitted)
     }
     this.enableControl();
     //this.resetControl();
@@ -96,7 +96,7 @@ postApiCall(data: any){
   const headers = { 'content-type': 'application/json'}  
   const body=JSON.stringify(data);
   console.log(body)
-  var url = 'http://localhost:8080/addUser'
+  var url = 'https://setu-crm.onrender.com/addUser'
   return this.httpClient.post(url, body,{'headers':headers})
   
 }

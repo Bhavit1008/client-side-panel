@@ -100,7 +100,7 @@ ngOnInit(): void {
 
  async getUsers(): Promise<any[]>{
     console.log('api called')
-    return firstValueFrom(this.httpClient.get<any[]>('http://localhost:8080/getUsers',{
+    return firstValueFrom(this.httpClient.get<any[]>('https://setu-crm.onrender.com/getUsers',{
       headers:
           new HttpHeaders(
             {

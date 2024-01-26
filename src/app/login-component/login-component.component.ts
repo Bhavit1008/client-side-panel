@@ -43,42 +43,26 @@ export class LoginComponentComponent {
       username: request.loginId,
       password: request.password
     }
-    var response = this.callApi(loginDto);
-    console.log('login response ::', response);
-    if(request.loginId=='admin' && request.password=='password'){
-      console.log('login successful')
+    var response = this.postApiCall(loginDto);
+    console.log('login response ::', response.pipe);
+    this.postApiCall(loginDto).subscribe(data => {
+      let res = JSON.parse(JSON.stringify(data))
       this.loginSuccess = true;
       var credObj = {
         isLoginSuccessful: 'yes',
         userId: request.loginId,
         password: request.password,
-        manager: 'primary manger',
-        category: 'Handicraft',
+        manager: res.username,
+        category: res.role,
         ttl: date.getTime()+(10 * 60 * 1000)
       }
       localStorage.setItem('cred', JSON.stringify(credObj));
-    }
-    else if(request.loginId=='slab' && request.password=='password'){
-      console.log('login successful')
-      this.loginSuccess = true;
-      var credObj = {
-        isLoginSuccessful: 'yes',
-        userId: request.loginId,
-        password: request.password,
-        manager: 'primary manger',
-        category: 'Handicraft',
-        ttl: date.getTime()+(10 * 60 * 1000)
-      }
-      localStorage.setItem('cred', JSON.stringify(credObj));
-    }
-    else{
-      console.log('login failed')
-      localStorage.setItem('isLoginSuccessful','no')
-    }
+    })
   }
 
   callApi(loginDto: any){
-    return this.httpClient.get<any[]>('https://setu-crm.onrender.com/login',loginDto,{
+    console.log('login dto ::',loginDto)
+    return this.httpClient.post<any[]>('https://setu-crm.onrender.com/login',loginDto,{
       headers:
           new HttpHeaders(
             {
@@ -87,6 +71,14 @@ export class LoginComponentComponent {
             }
           )
     })
+  }
+
+  postApiCall(data: any){
+    const headers = { 'content-type': 'application/json'}  
+    const body=JSON.stringify(data);
+    console.log(body)
+    var url = 'http://localhost:8080/login'
+    return this.httpClient.post(url, body,{'headers':headers})
   }
 
   getValuesForLogin(form: any){

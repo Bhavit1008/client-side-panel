@@ -50,18 +50,7 @@ export class GetOrdersComponent {
     console.log('credentials :: ',credObj);
     var manager = credObj.manager;
     var category = credObj.category;
-    if(manager='admin')
-    return  this.httpClient.get<any[]>('https://setu-crm.onrender.com/allOrders',{
-      headers:
-          new HttpHeaders(
-            {
-              'Content-Type': 'application/json',
-              'X-Requested-With': 'XMLHttpRequest',
-            }
-          )
-    })
-    else
-    return  this.httpClient.get<any[]>('https://setu-crm.onrender.com/test/'+category+'/'+manager,{
+      return  this.httpClient.get<any[]>('https://setu-crm.onrender.com/test/'+category+'/'+manager,{
       headers:
           new HttpHeaders(
             {

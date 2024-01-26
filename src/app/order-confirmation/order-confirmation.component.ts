@@ -61,7 +61,7 @@ export class OrderConfirmationComponent implements OnInit {
     deliveryDate: '',
     color: '',
     creationDate: '',
-    primaryManager: 'Primary Manager',
+    primaryManager: '',
     secondaryManager: '',
     developedQuantity: '',
     dispatchedQuantity: '',
@@ -151,6 +151,9 @@ buildForm(){
 //set values for edit page
 setEditValues(data: any){
   console.log('setEditValues is called');
+  var credentials:any = localStorage.getItem('cred');
+  let cred = JSON.parse(credentials)
+  console.log('cred :: ',cred)
   this.currentId = data.id;
   this.orderCompForm.get('productCategory')!.setValue(data.productCategory);
   this.orderCompForm.get('partyName')?.setValue(data.partyName);
@@ -168,7 +171,7 @@ setEditValues(data: any){
   this.orderCompForm.get('deliveryDate')?.setValue(data.deliveryDate);
   this.orderCompForm.get('color')?.setValue(data.color);
   this.orderCompForm.get('creationDate')?.setValue(data.creationDate);
-  this.orderCompForm.get('primaryManager')?.setValue(data.primaryManager);
+  this.orderCompForm.get('primaryManager')?.setValue(cred.manager);
   this.orderCompForm.get('secondaryManager')?.setValue(data.secondaryManager);
   this.orderCompForm.get('developedQuantity')?.setValue(data.developedQuantity);
   this.orderCompForm.get('dispatchedQuantity')?.setValue(data.dispatchedQuantity);
@@ -181,6 +184,9 @@ setEditValues(data: any){
 prepareResForNewOrder(form: any){
   var currentTime = new Date();
   this.currentId = currentTime.toString();
+  var credentials:any = localStorage.getItem('cred');
+  let cred = JSON.parse(credentials)
+  console.log('cred :: ',cred)
   this.responseObj = {
     id: currentTime.toString(),
     productCategory: form.value.productCategory,
@@ -199,7 +205,7 @@ prepareResForNewOrder(form: any){
     deliveryDate: form.value.deliveryDate,
     color: form.value.color,
     creationDate: currentTime,
-    primaryManager: 'Primary Manager',
+    primaryManager: cred.manager,
     secondaryManager: form.value.secondaryManager,
     dispatchedQuantity: '',
     leftQuantity: '',
@@ -241,6 +247,9 @@ prepareResForRunningOrder(form: any){
   var currentTime = new Date();
   console.log('form.value.productCategory :: ',form.value.productCategory)
   console.log('current id:: ', this.currentId);
+  var credentials:any = localStorage.getItem('cred');
+  let cred = JSON.parse(credentials)
+  console.log('cred :: ',cred)
   this.responseObj = {
     id: this.currentId,
     productCategory: form.value.productCategory,
@@ -259,7 +268,7 @@ prepareResForRunningOrder(form: any){
     deliveryDate: form.value.deliveryDate,
     color: form.value.color,
     creationDate: currentTime,
-    primaryManager: 'Primary Manager',
+    primaryManager: cred.manager,
     secondaryManager: form.value.secondaryManager,
     developedQuantity: form.value.developedQuantity,
     dispatchedQuantity: form.value.dispatchedQuantity,

@@ -13,6 +13,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { AddCompanyDetailsComponent } from './add-company-details/add-company-details.component';
 import { AddStockComponent } from './add-stock/add-stock.component';
 import { AddUserComponent } from './add-user/add-user.component';
+import { GatepassComponent } from './gatepass/gatepass.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { AddUserComponent } from './add-user/add-user.component';
     LoginComponentComponent,
     AddCompanyDetailsComponent,
     AddStockComponent,
-    AddUserComponent
+    AddUserComponent,
+    GatepassComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +39,7 @@ import { AddUserComponent } from './add-user/add-user.component';
     HttpClient,
     CookieService
   ],
-  exports: [AppRoutingModule, OrderConfirmationComponent,],
+  exports: [AppRoutingModule, OrderConfirmationComponent,GatepassComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

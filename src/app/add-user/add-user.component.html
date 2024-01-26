@@ -29,12 +29,12 @@
             </div>
             <div class="form-group">
                 <label>Phone Number: </label>
-                <input type="text" class="form-control" name="phoneNumber" formControlName="phoneNumber" required minlength="10" maxlength="10">
+                <input type="tel" class="form-control" name="phoneNumber" formControlName="phoneNumber" required minlength="10" maxlength="10">
                 <span *ngIf="userForm.invalid && ( userFormGroup.get('phoneNumber')?.touched && !userFormGroup.get('phoneNumber')?.dirty)">
                     <span class="error" ng-show="userForm.phoneNumber.$error.required">
-                    <i>Phone number required! </i><br></span>            
+                    <i>Phone Number required!</i></span>                
                 </span>
-                <span *ngIf="userForm.invalid && userFormGroup.get('phoneNumber')?.dirty">
+                <span *ngIf=" userFormGroup.get('phoneNumber')?.invalid && !userFormGroup.get('phoneNumber')?.pristine">
                     <span class="error" ng-show="userForm.phoneNumber.$error.minlength || userForm.phoneNumber.$error.maxlength">
                     <i>Phone number must be of 10 digits</i></span>             
                 </span>
@@ -42,7 +42,7 @@
             <div class="form-group">
                 <label>Email: </label>
                 <input type="email" class="form-control" name="emailAddress" formControlName="emailAddress" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
-                <span *ngIf="userForm.invalid && userFormGroup.get('emailAddress')?.dirty">
+                <span *ngIf="userFormGroup.get('emailAddress')?.invalid">
                     <span class="error" ng-show="userForm.emailAddress.$error.pattern">
                     <i>Please enter a valid email address</i></span>             
                 </span>

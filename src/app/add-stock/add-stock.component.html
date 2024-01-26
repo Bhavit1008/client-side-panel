@@ -42,7 +42,7 @@
                 <span class="error" ng-show="stockForm.productQuantity.$error.required">
                 <i>Product quantity required! </i><br></span>                
               </span>
-              <span *ngIf="stockForm.invalid && stockFormGroup.get('productQuantity')?.dirty">
+              <span *ngIf="stockFormGroup.get('productQuantity')?.invalid && !stockFormGroup.get('productQuantity')?.pristine">
                 <span class="error" ng-show="stockForm.productQuantity.$error.min">
                 <i>Product quantity must be atleast 1</i></span>
               </span>

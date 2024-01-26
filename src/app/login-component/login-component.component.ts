@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-login-component',
@@ -17,7 +19,7 @@ export class LoginComponentComponent {
   }
 
  
-  constructor(private form:FormBuilder, private cookieService: CookieService){}
+  constructor(private form:FormBuilder, private cookieService: CookieService, private httpClient: HttpClient){}
 
   buildForm(){
     this.loginCompForm = this.form.group({
@@ -37,6 +39,12 @@ export class LoginComponentComponent {
     //declare date and get current date time
     var date = new Date();
     //add 20 minutes to date
+    var loginDto = {
+      username: request.loginId,
+      password: request.password
+    }
+    var response = this.callApi(loginDto);
+    console.log('login response ::', response);
     if(request.loginId=='admin' && request.password=='password'){
       console.log('login successful')
       this.loginSuccess = true;
@@ -44,7 +52,8 @@ export class LoginComponentComponent {
         isLoginSuccessful: 'yes',
         userId: request.loginId,
         password: request.password,
-        role: 'admin',
+        manager: 'primary manger',
+        category: 'Handicraft',
         ttl: date.getTime()+(10 * 60 * 1000)
       }
       localStorage.setItem('cred', JSON.stringify(credObj));
@@ -56,7 +65,8 @@ export class LoginComponentComponent {
         isLoginSuccessful: 'yes',
         userId: request.loginId,
         password: request.password,
-        role: 'slab',
+        manager: 'primary manger',
+        category: 'Handicraft',
         ttl: date.getTime()+(10 * 60 * 1000)
       }
       localStorage.setItem('cred', JSON.stringify(credObj));
@@ -65,6 +75,18 @@ export class LoginComponentComponent {
       console.log('login failed')
       localStorage.setItem('isLoginSuccessful','no')
     }
+  }
+
+  callApi(loginDto: any){
+    return this.httpClient.get<any[]>('https://setu-crm.onrender.com/login',loginDto,{
+      headers:
+          new HttpHeaders(
+            {
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest',
+            }
+          )
+    })
   }
 
   getValuesForLogin(form: any){

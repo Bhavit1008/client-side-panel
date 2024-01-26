@@ -45,7 +45,23 @@ export class GetOrdersComponent {
 
   postApiCall(): Observable<any[]>{
     console.log('api called')
-    return  this.httpClient.get<any[]>('https://setu-crm.onrender.com/test',{
+    var credentials = localStorage.getItem('cred');
+    var credObj = credentials != null ? JSON.parse(credentials) : null;
+    console.log('credentials :: ',credObj);
+    var manager = credObj.manager;
+    var category = credObj.category;
+    if(manager='admin')
+    return  this.httpClient.get<any[]>('https://setu-crm.onrender.com/allOrders',{
+      headers:
+          new HttpHeaders(
+            {
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest',
+            }
+          )
+    })
+    else
+    return  this.httpClient.get<any[]>('https://setu-crm.onrender.com/test/'+category+'/'+manager,{
       headers:
           new HttpHeaders(
             {

@@ -33,7 +33,8 @@
               <p class="card-text">{{num.status}}</p>
               <a  class="card-link" [routerLink]="[ '/order-confirmation',num]">Edit</a>
               <a  class="card-link" (click)="openPopup(num)">Delete</a>
-              <a href="#" class="card-link">View</a>
+              
+              <a class="card-link" (click)="viewOrder(num)">View</a>
             </div>
           </div>
   </div>
@@ -63,4 +64,6 @@
       </div>
     </div>
   </div>
+
+ 
 </div>

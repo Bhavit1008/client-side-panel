@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -10,16 +11,18 @@ import { Observable } from 'rxjs';
 })
 export class GetOrdersComponent {
 
-  constructor(private httpClient: HttpClient, private form:FormBuilder){}
+  constructor(private httpClient: HttpClient, private form:FormBuilder, private router: Router){}
   response:any;
   totalOrder:any;
   recievedOrders:any = [];
   processingOrders:any = [];
   completedOrders:any = [];
   loginSuccess = false;
-  isFetching = false
-  displayStyle = 'none'
+  isFetching = false;
+  displayStyle = 'none';
+  viewStyle = 'none';
   currentElementToDelete: any;
+  currentElementToView: any;
   role: any;
   filter = {}
   public getOrderCompForm!: FormGroup;
@@ -192,5 +195,12 @@ export class GetOrdersComponent {
   }
   closePopup(){
     this.displayStyle = 'none'
+  }
+
+  viewOrder(order: any){
+    this.displayStyle = "block";
+    this.currentElementToView = order;
+    this.router.navigate(['/order-details', this.currentElementToView]);
+    console.log(this.currentElementToView);
   }
 }

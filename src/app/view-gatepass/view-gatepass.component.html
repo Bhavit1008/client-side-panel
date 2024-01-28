@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="card col-md-3 col-sm-6 col-xs-6" style="width: 18rem; margin: 12px; padding:2px;" *ngFor="let num of entries">
+        <div class="card-body">
+          <h5 class="card-title">{{num.transporterName}}</h5>
+          <a class="card-link" (click) ="viewGatePass(num)">View</a>
+        </div>
+      </div>
+
+
+      <div
+  class="modal"
+  role="dialog"
+  [ngStyle]="{'display':displayStyle}"  *ngIf="currentElementToView">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p>Selected gatepass details are as follows:</p>
+        <table>
+          <tbody>
+            <tr>
+                <td>Transporter Name:</td>
+                <td> {{ currentElementToView.transporterName }} </td>
+            </tr>
+            <tr>
+                <td>Vehicle Number:</td>
+                <td> {{ currentElementToView.vehicleNumber }} </td>
+            </tr>
+            <tr>
+                <td>Time vehicle entered:</td>
+                <td> {{ currentElementToView.timeEntered }} </td>
+            </tr>
+            <tr>
+                <td>Time vehicle left:</td>
+                <td> {{ currentElementToView.timeLeft }} </td>
+            </tr>
+            <tr>
+                <td>Party Name:</td>
+                <td> {{ currentElementToView.partyName }} </td>
+            </tr>
+            <tr>
+                <td>Items ordered:</td>
+                <td> {{ currentElementToView.items }} </td>
+            </tr>
+            <tr>
+                <td>Manager:</td>
+                <td> {{ currentElementToView.manager }} </td>
+            </tr>
+            <tr>
+                <td>Bill Number:</td>
+                <td> {{ currentElementToView.billNumber }} </td>
+            </tr>
+            <tr>
+                <td>PO:</td>
+                <td> {{ currentElementToView.po }} </td>
+            </tr>
+          </tbody>
+          </table>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn btn-secondary mr-auto btn-ok" (click)="closeGatePass()">ok</button>
+      </div>
+        
+    </div>
+  </div>
+      
+</div>

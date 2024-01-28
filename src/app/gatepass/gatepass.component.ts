@@ -106,6 +106,7 @@ resetControl(){
   this.gatePassFormGroup.get('partyName')?.reset();
   this.gatePassFormGroup.get('items')?.reset();
   this.gatePassFormGroup.get('billNumber')?.reset();
+  this.gatePassFormGroup.get('po')?.reset();
  }
 
 
@@ -142,6 +143,11 @@ resetForm(){
   this.gatePassFormGroup.get('manager')!.setValue(gatepass.manager);
   this.gatePassFormGroup.get('po')!.setValue(gatepass.po);
   this.gatePassFormGroup.get('billNumber')!.setValue(gatepass.billNumber);
+}
+
+saveGatePasses(){
+  //console.log("Routing to view gate passes comp");
+  this.router.navigate(['/view-gate-passes', this.entries]);
 }
 
 

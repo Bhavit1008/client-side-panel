@@ -1,0 +1,105 @@
+body {
+	display: table;
+	width: 100%;
+	background: #c2bdbd;
+	text-align: center;
+}
+* {
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box; /* Firefox, other Gecko */
+	box-sizing: border-box; /* Opera/IE 8+ */
+}
+
+table {
+	background: #ddd9d9;
+}
+table,
+thead,
+tbody,
+tfoot,
+tr,
+td,
+th {
+	text-align: center;
+	margin: auto;
+	border: 1px solid #0c0b0b;
+	padding: 0.4rem;
+	width: auto;;
+}
+.table {
+	display: table;
+	width: auto;
+}
+.tr {
+	display: table-row;
+}
+
+.tbody {
+	display: table-row-group;
+}
+
+.td,
+.th {
+	display: table-cell;
+	width: auto;
+}
+
+.table,
+.thead,
+.tbody,
+.tfoot,
+.tr,
+.td,
+.th {
+	text-align: center;
+	margin: auto;
+	padding: 0.8rem;
+}
+.table {
+	background: #fff;
+	margin: auto;
+	border: none;
+	padding: 0;
+	margin-bottom: 2rem;
+}
+
+.th {
+	font-weight: 400;
+	border: 2px solid #dedede;
+	&:nth-child(odd) {
+		border-right: none;
+	}
+}
+.td {
+	font-weight: 400;
+	border: 2px solid #dedede;
+	border-top: none;
+	&:nth-child(odd) {
+		border-right: none;
+	}
+}
+
+.mainTable {
+	padding: 4rem;
+	display: table;
+	height: 100vh;
+	vertical-align: middle;
+}
+
+
+
+/* Important part */
+.modal-dialog{
+    overflow-y: initial !important
+}
+.modal-body{
+    height: 80vh;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.btn-ok{
+    margin-left: auto;
+}
+
+

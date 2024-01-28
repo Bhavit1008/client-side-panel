@@ -194,13 +194,18 @@ export class GetOrdersComponent {
     this.deleteOrder(this.currentElementToDelete);
   }
   closePopup(){
-    this.displayStyle = 'none'
+    this.displayStyle = 'none';
+    //this.viewStyle = 'none'
   }
 
   viewOrder(order: any){
-    this.displayStyle = "block";
+    this.viewStyle = "block";
     this.currentElementToView = order;
-    this.router.navigate(['/order-details', this.currentElementToView]);
+    //this.router.navigate(['/order-details', this.currentElementToView]);
     console.log(this.currentElementToView);
+  }
+
+  closeViewOrder(){
+     this.viewStyle = 'none'
   }
 }

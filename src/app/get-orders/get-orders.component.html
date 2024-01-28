@@ -33,7 +33,6 @@
               <p class="card-text">{{num.status}}</p>
               <a  class="card-link" [routerLink]="[ '/order-confirmation',num]">Edit</a>
               <a  class="card-link" (click)="openPopup(num)">Delete</a>
-              
               <a class="card-link" (click)="viewOrder(num)">View</a>
             </div>
           </div>
@@ -65,5 +64,116 @@
     </div>
   </div>
 
- 
+   
 </div>
+
+  <div
+  class="modal"
+  role="dialog"
+  [ngStyle]="{'display':viewStyle}"  *ngIf="currentElementToView">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p>Selected order details are as follows:</p>
+        <table>
+          <tbody>
+            <tr>
+                <td>Id</td>
+                <td> {{ currentElementToView.id }} </td>
+            </tr>
+            <tr>
+                <td>Creation Date </td>
+                <td> {{ currentElementToView.creationDate }} </td>
+            </tr>
+            <tr>
+              <td>Status</td>
+              <td> {{ currentElementToView.status }} </td>
+          </tr>
+          <tr>
+              <td>Party Name </td>
+              <td> {{ currentElementToView.partyName }} </td>
+          </tr>
+          <tr>
+              <td>Primary Manager </td>
+              <td> {{ currentElementToView.primaryManager }} </td>
+          </tr>
+          <tr>
+              <td>Secondary Manager </td>
+              <td> {{ currentElementToView.secondaryManager }} </td>
+          </tr>
+          <tr>
+              <td>Delivery City </td>
+              <td> {{ currentElementToView.deliveryCity }} </td>
+          </tr>
+          <tr>
+              <td>Product Category</td>
+              <td> {{ currentElementToView.productCategory }} </td>
+          </tr>
+          <tr>
+              <td>Product Code</td>
+              <td> {{ currentElementToView.productCode }} </td>
+          </tr>
+          <tr>
+              <td>Product Description</td>
+              <td> {{ currentElementToView.productDescription }} </td>
+          </tr>
+          <tr>
+              <td>Quality</td>
+              <td> {{ currentElementToView.quality }} </td>
+          </tr>
+          <tr>
+              <td>Quatity</td>
+              <td> {{ currentElementToView.quantity }} </td>
+          </tr>
+          <tr>
+              <td>Shape</td>
+              <td> {{ currentElementToView.shape }} </td>
+          </tr>
+          <tr>
+              <td>Color </td>
+              <td> {{ currentElementToView.color }} </td>
+          </tr>
+          <tr>
+              <td>Polish </td>
+              <td> {{ currentElementToView.polish }} </td>
+          </tr>
+          <tr>
+              <td>Unit</td>
+              <td> {{ currentElementToView.unit }} </td>
+          </tr>
+          <tr>
+              <td>Height </td>
+              <td> {{ currentElementToView.height }} </td>
+          </tr>
+         
+          <tr>
+              <td>Length </td>
+              <td> {{ currentElementToView.length }} </td>
+          </tr>
+          <tr>
+              <td>Width</td>
+              <td> {{ currentElementToView.width }} </td>
+          </tr>
+          <tr>
+              <td>Developed Quantity </td>
+              <td> {{ currentElementToView.developedQuantity }} </td>
+          </tr>
+          <tr>
+              <td>Dispatched Quantity</td>
+              <td> {{ currentElementToView.dispatchedQuantity }} </td>
+          </tr>
+          <tr>
+              <td>Left Quantity</td>
+              <td> {{ currentElementToView.leftQuantity }} </td>
+          </tr>
+          </tbody>
+          </table>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn btn-secondary mr-auto btn-ok" (click)="closeViewOrder()">Ok</button>
+      </div>
+        
+    </div>
+  </div>
+

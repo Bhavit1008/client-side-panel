@@ -10,7 +10,6 @@ import { AddCompanyDetailsComponent } from './add-company-details/add-company-de
 import { AddStockComponent } from './add-stock/add-stock.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { GatepassComponent } from './gatepass/gatepass.component';
-import { ViewOrderComponent } from './view-order/view-order.component';
 
 const routes: Routes = [
   {
@@ -50,10 +49,6 @@ const routes: Routes = [
   {
     path: 'gate-pass',
     component: GatepassComponent,
-  },
-  {
-    path: 'order-details',
-    component: ViewOrderComponent,
   },
   {
     path: '',

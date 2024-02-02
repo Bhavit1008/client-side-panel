@@ -54,8 +54,10 @@ export class LoginComponentComponent {
         password: request.password,
         manager: res.username,
         category: res.role,
-        ttl: date.getTime()+(10 * 60 * 1000)
+        designation: res.designation,
+        ttl: date.getTime()+(15 * 60 * 1000)
       }
+      console.log('obj :: ',credObj)
       localStorage.setItem('cred', JSON.stringify(credObj));
     })
   }
@@ -77,7 +79,7 @@ export class LoginComponentComponent {
     const headers = { 'content-type': 'application/json'}  
     const body=JSON.stringify(data);
     console.log(body)
-    var url = 'http://localhost:8080/login'
+    var url = 'https://setu-crm.onrender.com/login'
     return this.httpClient.post(url, body,{'headers':headers})
   }
 

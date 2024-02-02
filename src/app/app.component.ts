@@ -11,6 +11,7 @@ export class AppComponent {
   title = 'client-side-forms';
   collapsed = true;
   loginSuccess = true;
+  loginCred:any = "unauthenticated"
   public loginCompForm!: FormGroup;
 
   ngOnInit(): void {

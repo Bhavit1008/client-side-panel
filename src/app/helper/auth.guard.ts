@@ -27,6 +27,14 @@ export class AuthGuard implements CanActivate {
       localStorage.clear();
       return false;
     }
+    let roles:any[] = route.data['roles']
+    if(roles!=null || roles!=undefined){
+      let index = roles.indexOf(cred.designation)
+      if(index==-1){
+        this.router.navigate(['/unauthorize']);
+        return false;
+      }
+    }
     var currentDate = new Date();
     var ttlDate = cred.ttl
     if(currentDate.getTime() > ttlDate){

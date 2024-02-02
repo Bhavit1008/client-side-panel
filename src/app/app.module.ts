@@ -15,6 +15,7 @@ import { AddStockComponent } from './add-stock/add-stock.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { GatepassComponent } from './gatepass/gatepass.component';
 import { ViewGatepassComponent } from './view-gatepass/view-gatepass.component';
+import { UnauthorizeComponent } from './unauthorize/unauthorize.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { ViewGatepassComponent } from './view-gatepass/view-gatepass.component';
     AddStockComponent,
     AddUserComponent,
     GatepassComponent,
-    ViewGatepassComponent
+    ViewGatepassComponent,
+    UnauthorizeComponent
 
   ],
   imports: [

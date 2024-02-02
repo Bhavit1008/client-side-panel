@@ -11,22 +11,32 @@ import { AddStockComponent } from './add-stock/add-stock.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { GatepassComponent } from './gatepass/gatepass.component';
 import { ViewGatepassComponent } from './view-gatepass/view-gatepass.component';
+import { UnauthorizeComponent } from './unauthorize/unauthorize.component';
 
 const routes: Routes = [
   {
     path: 'order-confirmation',
     component: OrderConfirmationComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['admin','manager']
+    }
   },
   {
     path: 'running-order',
     component: RunningOrderComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['admin','manager']
+    }
   },
   {
     path: 'get-orders',
     component: GetOrdersComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['admin','manager']
+    }
   },
   {
     path: 'login',
@@ -35,32 +45,51 @@ const routes: Routes = [
   {
     path: 'add-company',
     component: AddCompanyDetailsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['admin']
+    }
   },
   {
     path: 'add-stock',
     component: AddStockComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['admin','manager']
+    }
   },
   {
     path: 'add-user',
     component: AddUserComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['admin']
+    }
   },
   {
     path: 'gate-pass',
     component: GatepassComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['admin','manager']
+    }
   },
   {
     path: 'view-gate-passes',
     component: ViewGatepassComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['admin','manager']
+    }
   },
   {
     path: '',
     component: AppComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path:'unauthorize',
+    component: UnauthorizeComponent
   }
 ];
 

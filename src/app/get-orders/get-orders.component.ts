@@ -26,6 +26,7 @@ export class GetOrdersComponent {
   role: any;
   filter = {}
   public getOrderCompForm!: FormGroup;
+  adminAccess=false;
 
   status = [
     { id: 1, label: "All Orders"},
@@ -36,7 +37,9 @@ export class GetOrdersComponent {
 
   ngOnInit(){
     this.buildForm();
-    
+    if(this.getDataFromLocalStorage().designation=='admin'){
+      this.adminAccess=true;
+    }
   }
 
 
@@ -48,12 +51,11 @@ export class GetOrdersComponent {
 
   postApiCall(): Observable<any[]>{
     console.log('api called')
-    var credentials = localStorage.getItem('cred');
-    var credObj = credentials != null ? JSON.parse(credentials) : null;
-    console.log('credentials :: ',credObj);
+    var credObj = this.getDataFromLocalStorage()
     var manager = credObj.manager;
     var category = credObj.category;
-      return  this.httpClient.get<any[]>('https://setu-crm.onrender.com/test/'+category+'/'+manager,{
+    var designation = credObj.designation;
+      return  this.httpClient.get<any[]>('https://setu-crm.onrender.com/test/'+designation+'/'+category+'/'+manager,{
       headers:
           new HttpHeaders(
             {
@@ -207,5 +209,12 @@ export class GetOrdersComponent {
 
   closeViewOrder(){
      this.viewStyle = 'none'
+  }
+
+  getDataFromLocalStorage(){
+    var credentials = localStorage.getItem('cred');
+    var credObj = credentials != null ? JSON.parse(credentials) : null;
+    console.log('credentials :: ',credObj);
+    return credObj;
   }
 }

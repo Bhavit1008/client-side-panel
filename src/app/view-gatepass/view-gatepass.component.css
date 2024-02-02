@@ -1,3 +1,11 @@
 .btn-ok{
     margin-left: auto;
 }
+
+input.ng-invalid.ng-touched{
+    border-color: red;
+}
+
+i{
+    color: red;
+}

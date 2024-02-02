@@ -116,7 +116,7 @@
         </div>
     </form>
 
-    <table class="table align-middle mb-0 bg-white" *ngIf="entries?.length != 0">
+    <table class="table align-middle mb-0 bg-white" *ngIf="gatepasses?.length != 0">
         <thead class="bg-light">
           <tr>
             <th>Party Name</th>
@@ -124,7 +124,7 @@
             <th>Bill Number</th>
           </tr>
         </thead>
-        <tbody *ngFor="let gatepass of entries">
+        <tbody *ngFor="let gatepass of gatepasses">
           <tr>
             <td>
               <div class="d-flex align-items-center">
@@ -155,7 +155,7 @@
           </table>
 
           <div class="form-group col-md-12">
-            <button class="btn btn-primary btn-block" style="width: auto; height: auto; margin: auto; margin-top: 2%;" *ngIf="entries?.length != 0" (click)="saveGatePasses()">Submit</button>
+            <button class="btn btn-primary btn-block" style="width: auto; height: auto; margin: auto; margin-top: 2%;" *ngIf="gatepasses?.length != 0" (click)="saveGatePasses()">Submit</button>
         </div>
 
     </div>

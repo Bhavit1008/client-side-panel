@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 import { GatePass } from '../models/GatePass';
 import { DatePipe } from '@angular/common';
+import { GatePassEntries } from '../models/GatePassEntries';
 //import {MatTableModule} from '@angular/material/table'
 
 @Component({
@@ -13,16 +14,20 @@ import { DatePipe } from '@angular/common';
   templateUrl: './gatepass.component.html',
   styleUrls: ['./gatepass.component.css']
 })
-export class GatepassComponent {
+export class GatepassComponent
+{
 
   public gatePassFormGroup!: FormGroup; 
   isSubmitted = false
   gatepass?: GatePass;
   gatePassSuccessDialog = false
   gatePassFailureDialog = false
-  entries : GatePass[] = [];
+  gatepasses : GatePass[] = [];
   datepipe: DatePipe = new DatePipe('en-in');
   gp?: any;
+  responseObj = {};
+  currentId: string='';
+  gatePassEntries?: GatePassEntries;
 
 
   constructor(private sanitizer: DomSanitizer, private httpClient: HttpClient,private router:Router,private route:ActivatedRoute,private form:FormBuilder) { }
@@ -49,8 +54,8 @@ export class GatepassComponent {
   }
 
 prepareResForNewGatePass(form: any){
+
   console.log("in prepareResForNewGatePass");
-  var currentTime = new Date();
   this.gatepass = new GatePass(
     form.value.vehicleNumber,
     form.value.transporterName,
@@ -64,43 +69,29 @@ prepareResForNewGatePass(form: any){
 
     //console.log('Gate pass details added :: ', this.gatepass);
 
-    this.entries.push(this.gatepass);
-    console.log('List of Gate pass details :: ', this.entries);
-
-  
+    this.gatepasses.push(this.gatepass);
+    console.log('List of Gate pass details :: ', this.gatepasses);
 }
 
 
-saveGatePassDetails(form: any){
-  console.log(" in saveGatePassDetails");
-  this.prepareResForNewGatePass(form);
-  this.resetControl();
-
-  let scrollToTop = window.setInterval(() => {
-        let pos = window.pageYOffset;
-        if (pos > 0) {
-            window.scrollTo(0, pos - 20); // how far to scroll on each step
-        } else {
-            window.clearInterval(scrollToTop);
-        }
-    }, 16);
-
-    
+  saveGatePassDetails(form: any){
+    console.log(" in saveGatePassDetails");
+    this.prepareResForNewGatePass(form);
+    this.resetControl();
+   
   }
 
   deleteGatePass(gatepass: GatePass){
     //console.log(gatepass);
-    this.entries.forEach( (gatepassItem) =>{
+    this.gatepasses.forEach( (gatepassItem) =>{
       if(gatepassItem.po == gatepass.po){
-        this.entries.splice(this.entries.indexOf(gatepass),1);
+        this.gatepasses.splice(this.gatepasses.indexOf(gatepass),1);
       }
     });
 
-    //console.log('List of Gate pass details :: ', this.entries);
+    //console.log('List of Gate pass details :: ', this.gatepasses);
   
   }
-
-
 
 resetControl(){
   this.gatePassFormGroup.get('partyName')?.reset();
@@ -147,9 +138,55 @@ resetForm(){
 
 saveGatePasses(){
   //console.log("Routing to view gate passes comp");
-  this.router.navigate(['/view-gate-passes', this.entries]);
+
+  var currentTime = new Date();
+  this.currentId = currentTime.toString();
+
+  this.isSubmitted = true
+  this.gatePassFailureDialog = false;
+  this.gatePassSuccessDialog = false;
+
+  this.gatePassEntries = new GatePassEntries(this.currentId, this.gatepasses);
+  console.log('gate pass entries' +this.gatePassEntries);
+
+  this.postApiCall(this.gatePassEntries).subscribe(data => {
+    let res = JSON.parse(JSON.stringify(data))
+    console.log('data',res.status)
+    if(res.status == '200'){
+        console.log('success',res);
+      
+        this.gatePassSuccessDialog = true;
+        this.gatepasses = [];
+        this.resetForm();
+    }
+    else{
+      this.gatePassFailureDialog = true;
+    }
+    this.isSubmitted = false;
+
+    let scrollToTop = window.setInterval(() => {
+      let pos = window.pageYOffset;
+      if (pos > 0) {
+          window.scrollTo(0, pos - 20); // how far to scroll on each step
+      } else {
+          window.clearInterval(scrollToTop);
+      }
+  }, 16);
+
+  })
+
+  //this.router.navigate(['/view-gate-passes']);
+}
+
+
+
+postApiCall(data: any){
+  const headers = { 'content-type': 'application/json'}  
+  const body=JSON.stringify(data);
+  console.log(body)
+  var url = 'http://localhost:8080/addGatePass'
+  return this.httpClient.post(url, body,{'headers':headers})
 }
 
 
 }
-

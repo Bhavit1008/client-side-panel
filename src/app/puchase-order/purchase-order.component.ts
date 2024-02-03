@@ -184,7 +184,7 @@ postApiCall(data: any){
   const headers = { 'content-type': 'application/json'}  
   const body=JSON.stringify(data);
   console.log(body)
-  var url = 'http://localhost:8080/addGatePass'
+  var url = 'http://localhost:8080/addPurchaseOrder'
   return this.httpClient.post(url, body,{'headers':headers})
 }
 

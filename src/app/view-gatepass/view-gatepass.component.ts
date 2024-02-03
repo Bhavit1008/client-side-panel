@@ -94,7 +94,7 @@ export class ViewGatepassComponent
 
   postApiCall(): Observable<PurchaseOrder[]>{
   {
-    return  this.http.get<any[]>('http://localhost:8080/allGatePasses');
+    return  this.http.get<any[]>('http://localhost:8080/allPurchaseOrders');
   }
 }
 

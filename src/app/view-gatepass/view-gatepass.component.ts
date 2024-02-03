@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { GatePass } from '../models/GatePass';
+import { PurchaseOrder } from '../models/PurchaseOrder';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { start } from '@popperjs/core';
 
@@ -21,7 +21,7 @@ export class ViewGatepassComponent
   public getGatePassCompForm!: FormGroup;
   isFetching: boolean = false;
   filteredGatepasses: any;
- 
+  datesValid: boolean = false;
 
   constructor( private http: HttpClient,private route:ActivatedRoute,  private router: Router, private form:FormBuilder) { }
 
@@ -39,7 +39,23 @@ export class ViewGatepassComponent
     })
   }
 
+  checkDates(selectStartDate: any, selectEndDate: any){
+    this.datesValid = false;
+
+    var startDate = this.getGatePassCompForm.get('selectStartDate')?.value;
+    var endDate = this.getGatePassCompForm.get('selectEndDate')?.value;
+
+    if( (Date.parse(startDate) <=
+    Date.parse(endDate)) && 
+   ( ( Date.parse(new Date(selectEndDate).toLocaleDateString())) 
+    <= (Date.parse(new Date().toLocaleDateString()))) ){
+      this.datesValid = true; 
+    }
+     
+  }
+
   onSelectShowResult(event:any){
+    
     this.isFetching = true;
    this.response = this.postApiCall().subscribe((res) => {
       this.isFetching = false;
@@ -76,7 +92,7 @@ export class ViewGatepassComponent
     return filteredGatepasses;
   }
 
-  postApiCall(): Observable<GatePass[]>{
+  postApiCall(): Observable<PurchaseOrder[]>{
   {
     return  this.http.get<any[]>('http://localhost:8080/allGatePasses');
   }
@@ -103,6 +119,8 @@ getGatePasses()
     console.log(this.response);
 })
 }
+
+
 
 }
 

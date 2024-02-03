@@ -1,28 +1,40 @@
 <div class="container">
   <form #getGatepassForm="ngForm" [formGroup]="getGatePassCompForm">
     
-    <h5> Select range of dates for vehicle left: </h5>
-    <div class="container col-md-4 col-xs-4">
+    
+    <div class="container col-md-6 col-xs-4">
+      <h5 style="align-items: center;"> Select range of dates for when vehicle left: </h5>
 
-      <div class="form-group">
-        <label>From: </label>
-        <input type="date" class="form-control" name="selectStartDate" formControlName="selectStartDate" required>
-      </div>
-      <div class="form-group">
-        <label>To: </label>
-        <input type="date" class="form-control" name="selectEndDate" formControlName="selectEndDate" required>
+      <div class="form-row">
+        <div class="col-xs-4">
+        <input type="date" class="form-control" name="selectStartDate" formControlName="selectStartDate" required placeholder="Start date" style="margin: 8px;">
+        <span *ngIf="getGatepassForm.invalid && ( getGatePassCompForm.get('selectStartDate')?.touched && !getGatePassCompForm.get('selectStartDate')?.dirty)">
+          <span class="error" ng-show="getGatepassForm.selectStartDate.$error.required">
+          <i>Start date required!</i></span>                
+      </span>
       </div>
 
-      <div class="form-group">
-        <button class="btn btn-primary btn-block" (click)="onSelectShowResult(getGatepassForm)" style="margin: 8px;">View Gatepasses</button>
+      <div class="col-xs-4">
+        <input type="date" class="form-control" name="selectEndDate" formControlName="selectEndDate" required placeholder="End date" (ngModelChange)="checkDates($event, $event)" style="margin: 8px;">
+        <span *ngIf="getGatepassForm.invalid && ( getGatePassCompForm.get('selectEndDate')?.touched && !getGatePassCompForm.get('selectEndDate')?.dirty)">
+          <span class="error" ng-show="getGatepassForm.selectEndDate.$error.required">
+          <i>End date required!</i></span>                
+      </span>
       </div>
-     
 
-    </div>
+      <div class="col-xs-4">
+        <button class="btn btn-primary btn-block" (click)="onSelectShowResult(getGatepassForm)" style="margin: 8px;" [disabled]="!datesValid" >View</button>
+      </div>
 
       <div class="form-group spinner-border text-secondary spinner-border-md" style="margin: 16px; padding: 4px;" role="status" *ngIf = "isFetching">
         <span class="sr-only">Loading...</span>
       </div>
+
+      </div>
+
+    </div>
+
+     
 
   </form>
 
@@ -79,14 +91,14 @@
             </tr>
             <tr>
                 <td>PO:</td>
-                <td> {{ currentElementToView.po }} </td>
+                <td> {{ currentElementToView.poId }} </td>
             </tr>
           </tbody>
           </table>
       </div>
       
       <div class="modal-footer">
-        <button class="btn btn-secondary mr-auto btn-ok" (click)="closeGatePass()">ok</button>
+        <button class="btn btn-secondary mr-auto btn-ok" (click)="closeGatePass()">Ok</button>
       </div>
         
     </div>

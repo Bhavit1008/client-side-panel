@@ -9,7 +9,7 @@ import { AuthGuard } from './helper/auth.guard';
 import { AddCompanyDetailsComponent } from './add-company-details/add-company-details.component';
 import { AddStockComponent } from './add-stock/add-stock.component';
 import { AddUserComponent } from './add-user/add-user.component';
-import { GatepassComponent } from './gatepass/gatepass.component';
+import { PurchaseOrderComponent } from './puchase-order/purchase-order.component';
 import { ViewGatepassComponent } from './view-gatepass/view-gatepass.component';
 import { UnauthorizeComponent } from './unauthorize/unauthorize.component';
 
@@ -68,7 +68,7 @@ const routes: Routes = [
   },
   {
     path: 'gate-pass',
-    component: GatepassComponent,
+    component: PurchaseOrderComponent,
     canActivate: [AuthGuard],
     data: {
       roles: ['admin','manager']

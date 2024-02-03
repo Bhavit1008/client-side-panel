@@ -1,15 +1,15 @@
 <div class="container col-md-12 col-xs-3">
     <div class="container">
-        <div class="alert alert-success" *ngIf="gatePassSuccessDialog" role="alert">
-        Gate pass details submitted successfully.
+        <div class="alert alert-success" *ngIf="purchaseOrderSuccessDialog" role="alert">
+            Purchase order details submitted successfully.
             <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
         </div>
-        <div class="alert alert-danger" *ngIf="gatePassFailureDialog" role="alert">
-        Gate pass details not submitted, please try again.
+        <div class="alert alert-danger" *ngIf="purchaseOrderFailureDialog" role="alert">
+        Purchase order details not submitted, please try again.
             <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
         </div>
 
-        <form #gatePassForm="ngForm"  style="padding: 2px;" [formGroup]="gatePassFormGroup" novalidate>
+        <form #purchaseOrderForm="ngForm"  style="padding: 2px;" [formGroup]="purchaseOrderFormGroup" novalidate>
             <div>
                 <h5>Add Gate Pass Details</h5>
 
@@ -19,20 +19,20 @@
                     <div class="form-group">
                         <label>Vehicle Number: </label>
                         <input type="text" class="form-control" name="vehicleNumber" formControlName="vehicleNumber"  required pattern="[a-zA-Z0-9]+$">
-                        <span *ngIf="gatePassForm.invalid && ( gatePassFormGroup.get('vehicleNumber')?.touched && !gatePassFormGroup.get('vehicleNumber')?.dirty)">
-                            <span class="error" ng-show="stockForm.productQuantity.$error.required">
+                        <span *ngIf="purchaseOrderForm.invalid && ( purchaseOrderFormGroup.get('vehicleNumber')?.touched && !purchaseOrderFormGroup.get('vehicleNumber')?.dirty)">
+                            <span class="error" ng-show="purchaseOrderForm.vehicleNumber.$error.required">
                             <i>Vehicle Number required! </i><br></span>                
                         </span>
-                        <span *ngIf="gatePassFormGroup.get('vehicleNumber')?.invalid && !gatePassFormGroup.get('vehicleNumber')?.pristine">
-                            <span class="error" ng-show="stockForm.vehicleNumber.$error.pattern">
+                        <span *ngIf="purchaseOrderFormGroup.get('vehicleNumber')?.invalid && !purchaseOrderFormGroup.get('vehicleNumber')?.pristine">
+                            <span class="error" ng-show="purchaseOrderForm.vehicleNumber.$error.pattern">
                             <i>Only characters and numbers are allowed!</i></span>
                         </span>
                     </div>    
                     <div class="form-group">
                         <label>Transporter name: </label>
                         <input type="text" class="form-control" name="transporterName" formControlName="transporterName" required>
-                        <span *ngIf="gatePassForm.invalid && ( gatePassFormGroup.get('transporterName')?.touched && !gatePassFormGroup.get('transporterName')?.dirty)">
-                            <span class="error" ng-show="gatePassForm.transporterName.$error.required">
+                        <span *ngIf="purchaseOrderForm.invalid && ( purchaseOrderFormGroup.get('transporterName')?.touched && !purchaseOrderFormGroup.get('transporterName')?.dirty)">
+                            <span class="error" ng-show="purchaseOrderForm.transporterName.$error.required">
                             <i>Transporter name required!</i></span>                
                         </span>
                     </div>
@@ -43,8 +43,8 @@
                     <div class="form-group">
                         <label>Time Vehicle Entered: </label>
                         <input type="datetime-local" class="form-control" name="timeEntered" formControlName="timeEntered" required>
-                        <span *ngIf="gatePassForm.invalid && ( gatePassFormGroup.get('timeEntered')?.touched && !gatePassFormGroup.get('timeEntered')?.dirty)">
-                            <span class="error" ng-show="gatePassForm.timeEntered.$error.required">
+                        <span *ngIf="purchaseOrderForm.invalid && ( purchaseOrderFormGroup.get('timeEntered')?.touched && !purchaseOrderFormGroup.get('timeEntered')?.dirty)">
+                            <span class="error" ng-show="purchaseOrderForm.timeEntered.$error.required">
                             <i>Time vehicle entered required!</i></span>                
                         </span>
                     </div>
@@ -52,8 +52,8 @@
                     <div class="form-group">
                         <label>Time Vehicle Left: </label>
                         <input type="datetime-local" class="form-control" name="timeLeft" formControlName="timeLeft" required>
-                        <span *ngIf="gatePassForm.invalid && ( gatePassFormGroup.get('timeLeft')?.touched && !gatePassFormGroup.get('timeLeft')?.dirty)">
-                            <span class="error" ng-show="gatePassForm.timeEntered.$error.required">
+                        <span *ngIf="purchaseOrderForm.invalid && ( purchaseOrderFormGroup.get('timeLeft')?.touched && !purchaseOrderFormGroup.get('timeLeft')?.dirty)">
+                            <span class="error" ng-show="purchaseOrderForm.timeEntered.$error.required">
                             <i>Time vehicle left required!</i></span>                
                         </span>
                     </div>
@@ -66,17 +66,17 @@
             <div class="form-group">
                 <label>Manager: </label>
                 <input type="text" class="form-control" name="manager" formControlName="manager" required>
-                <span *ngIf="gatePassForm.invalid && ( gatePassFormGroup.get('manager')?.touched && !gatePassFormGroup.get('manager')?.dirty)">
-                    <span class="error" ng-show="gatePassForm.manager.$error.required">
+                <span *ngIf="purchaseOrderForm.invalid && ( purchaseOrderFormGroup.get('manager')?.touched && !purchaseOrderFormGroup.get('manager')?.dirty)">
+                    <span class="error" ng-show="purchaseOrderForm.manager.$error.required">
                     <i>Manager details required!</i></span>                
                 </span>
             </div>
 
             <div class="form-group">
                 <label>Party Name: </label>
-                <input type="text" class="form-control" name="manager" formControlName="partyName" (ngModelChange)="poChange($event)" required>
-                <span *ngIf="gatePassForm.invalid && ( gatePassFormGroup.get('partyName')?.touched && !gatePassFormGroup.get('partyName')?.dirty)">
-                    <span class="error" ng-show="gatePassForm.partyName.$error.required">
+                <input type="text" class="form-control" name="manager" formControlName="partyName" (ngModelChange)="poIdChange($event)" required>
+                <span *ngIf="purchaseOrderForm.invalid && ( purchaseOrderFormGroup.get('partyName')?.touched && !purchaseOrderFormGroup.get('partyName')?.dirty)">
+                    <span class="error" ng-show="purchaseOrderForm.partyName.$error.required">
                     <i>Party Name required!</i></span>                
                 </span>
             </div>
@@ -84,8 +84,8 @@
             <div class="form-group">
                 <label>Items: </label>
                 <input type="text" class="form-control" name="items" formControlName="items" required>
-                <span *ngIf="gatePassForm.invalid && ( gatePassFormGroup.get('items')?.touched && !gatePassFormGroup.get('items')?.dirty)">
-                    <span class="error" ng-show="gatePassForm.items.$error.required">
+                <span *ngIf="purchaseOrderForm.invalid && ( purchaseOrderFormGroup.get('items')?.touched && !purchaseOrderFormGroup.get('items')?.dirty)">
+                    <span class="error" ng-show="purchaseOrderForm.items.$error.required">
                     <i>Item details required!</i></span>                
                 </span>
             </div>
@@ -97,18 +97,18 @@
 
             <div class="form-group">
                 <label>PO: </label>
-                <input type="text" class="form-control" name="po" formControlName="po">
+                <input type="text" class="form-control" name="poId" formControlName="poId">
             </div>
 
-            <div class="row">
-                <div class="form-group row col-md-3">
-                    <button class="btn btn-primary btn-block" (click)="saveGatePassDetails(gatePassForm)" [disabled]="gatePassForm.invalid">Add</button>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <button class="btn btn-primary btn-block" (click)="savePurchaseOrderDetails(purchaseOrderForm)" [disabled]="purchaseOrderForm.invalid">Add</button>
                 </div>
-                <div class="form-group row col-md-3">
+                <div class="form-group col-md-3">
                     <button class="btn btn-primary btn-block" (click)="resetForm()">Reset</button>
                 </div>
                 <div class="form-group spinner-grow spinner-grow-md" *ngIf="isSubmitted" role="status">
-                    <span class="sr-only">Adding gate pass details...</span>
+                    <span class="sr-only">Adding purchase order details...</span>
           
             </div>
             </div>
@@ -116,7 +116,7 @@
         </div>
     </form>
 
-    <table class="table align-middle mb-0 bg-white" *ngIf="gatepasses?.length != 0">
+    <table class="table align-middle mb-0 bg-white" *ngIf="purchaseOrders?.length != 0">
         <thead class="bg-light">
           <tr>
             <th>Party Name</th>
@@ -124,29 +124,29 @@
             <th>Bill Number</th>
           </tr>
         </thead>
-        <tbody *ngFor="let gatepass of gatepasses">
+        <tbody *ngFor="let purchaseOrder of purchaseOrders">
           <tr>
             <td>
               <div class="d-flex align-items-center">
                 <div class="ms-3">
-                  <p class="fw-bold mb-1"> {{ gatepass.partyName }}</p>
+                  <p class="fw-bold mb-1"> {{ purchaseOrder.partyName }}</p>
                 </div>
               </div>
             </td>
             <td>
-              <p class="fw-normal mb-1">{{ gatepass.items }}</p>
+              <p class="fw-normal mb-1">{{ purchaseOrder.items }}</p>
             </td>
             <td>
-                <p class="fw-normal mb-1"> {{ gatepass.billNumber }}</p>
+                <p class="fw-normal mb-1"> {{ purchaseOrder.billNumber }}</p>
               </td>
             <td>
             <td>
-            <button type="button" class="btn btn-link btn-sm btn-rounded" (click)="setEditValues(gatepass)">
+            <button type="button" class="btn btn-link btn-sm btn-rounded" (click)="setEditValues(purchaseOrder)">
                 Edit
             </button>
             </td>
             <td>
-            <button type="button" class="btn btn-link btn-sm btn-rounded" (click)="deleteGatePass(gatepass)">
+            <button type="button" class="btn btn-link btn-sm btn-rounded" (click)="deletepurchaseOrder(purchaseOrder)">
                 Delete
             </button>
         </td>
@@ -155,7 +155,7 @@
           </table>
 
           <div class="form-group col-md-12">
-            <button class="btn btn-primary btn-block" style="width: auto; height: auto; margin: auto; margin-top: 2%;" *ngIf="gatepasses?.length != 0" (click)="saveGatePasses()">Submit</button>
+            <button class="btn btn-primary btn-block" style="width: auto; height: auto; margin: auto; margin-top: 2%;" *ngIf="purchaseOrders?.length != 0" (click)="savepurchaseOrders()">Submit</button>
         </div>
 
     </div>

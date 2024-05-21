@@ -23,15 +23,21 @@ export class AddStockComponent {
   image:any;
 
   productCategories = [
-    { id: 1, label: "Handicraft" },
-    { id: 2, label: "Slabs" },
-    { id: 3, label: "Bote"}
+    { id: 1, label: "Marble" },
+    { id: 2, label: "Granite" },
+    { id: 3, label: "Imported"},
+    { id: 3, label: "Other"},
 ]
 
   warehouse= [
     { id: 1, label: "Setu" },
     { id: 2, label: "Mugdha" },
-    { id: 3, label: "Craftman"}
+    { id: 3, label: "Craftman"},
+    { id: 3, label: "Muradabad"},
+  ]
+
+  products=[
+    { id: 1, label: "marble" }
   ]
 
   constructor(private sanitizer: DomSanitizer, private httpClient: HttpClient,private router:Router,private route:ActivatedRoute,private form:FormBuilder) { }
@@ -46,7 +52,11 @@ export class AddStockComponent {
 buildForm(){
   this.stockFormGroup = this.form.group({
     productCategory: new FormControl(''),
+    product: new FormControl(''),
     productCode: new FormControl(''),
+    quality: new FormControl(''),
+    productDescription: new FormControl(''),
+    productPolish: new FormControl(''),
     companyAddress: new FormControl(''),
     productQuantity: new FormControl(''),
     dateOfStocking: new FormControl(''),
@@ -63,7 +73,11 @@ prepareResForNewStock(form: any){
   this.responseObj = {
     id: form.value.productCode,
     productCategory: form.value.productCategory,
+    product: form.value.product,
     productCode: form.value.productCode,
+    quality: form.value.quality,
+    productDescription: form.value.productDescription,
+    productPolish: form.value.productPolish,
     productQuantity: form.value.productQuantity,
     dateOfStocking: form.value.dateOfStocking,
     warehouse: form.value.warehouse,
@@ -120,7 +134,10 @@ saveStockDetails(form: any){
 
 disableControl(){
   this.stockFormGroup.get('productCategory')?.disable();
+  this.stockFormGroup.get('product')?.disable();
+  this.stockFormGroup.get('productDescription')?.disable();
   this.stockFormGroup.get('productQuantity')?.disable();
+  this.stockFormGroup.get('quality')?.disable();
   this.stockFormGroup.get('dateOfStocking')?.disable();
   this.stockFormGroup.get('warehouse')?.disable();
   this.stockFormGroup.get('productLocation')?.disable();
@@ -130,7 +147,10 @@ disableControl(){
 
 enableControl(){
   this.stockFormGroup.get('productCategory')?.enable();
+  this.stockFormGroup.get('product')?.enable();
+  this.stockFormGroup.get('productDescription')?.enable();
   this.stockFormGroup.get('productQuantity')?.enable();
+  this.stockFormGroup.get('quality')?.enable();
   this.stockFormGroup.get('dateOfStocking')?.enable();
   this.stockFormGroup.get('warehouse')?.enable();
   this.stockFormGroup.get('productLocation')?.enable();
@@ -141,7 +161,10 @@ enableControl(){
 
 resetControl(){
   this.stockFormGroup.get('productCategory')?.reset();
+  this.stockFormGroup.get('product')?.reset();
+  this.stockFormGroup.get('productDescription')?.reset();
   this.stockFormGroup.get('productQuantity')?.reset();
+  this.stockFormGroup.get('quality')?.reset();
   this.stockFormGroup.get('dateOfStocking')?.reset();
   this.stockFormGroup.get('warehouse')?.reset();
   this.stockFormGroup.get('productLocation')?.reset();
@@ -172,6 +195,39 @@ resetControl(){
   });
 
   
+  }
+
+  selectProductOnCategory($event: any){
+    let category = $event.target.options[$event.target.options.selectedIndex].text;
+    console.log('product category :: ', category);
+    if(category=='Marble'){
+      console.log('marble selected if condition-')
+      this.products = [
+        { id: 1, label: "Banswara White"},
+        { id: 2, label: "Banswara Purple"},
+        { id: 3, label: "Kesariya Green"},
+      ]
+    }
+    if(category=='Granite'){
+      this.products = [
+        { id: 1, label: "Telephone Black"},
+        { id: 2, label: "Rajasthan Black"},
+      ]
+    }
+    if(category=='Imported'){
+      this.products = [
+        { id: 1, label: "Travertine Beige"},
+        { id: 2, label: "Travertine Brown"},
+        { id: 2, label: "Dark Emprador"},
+        { id: 2, label: "Statuario"},
+        { id: 2, label: "Botochino"},
+      ]
+    }
+    if(category=='Other'){
+      this.products = [
+        { id: 1, label: "Kadapa"},
+      ]
+    }
   }
 
     getAsByteArray(file: any) {

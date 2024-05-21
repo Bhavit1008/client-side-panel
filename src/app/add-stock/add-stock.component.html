@@ -19,6 +19,7 @@
                 class="form-control"
                 [disabled]="isSubmitted"
                 formControlName="productCategory"
+                (change)="selectProductOnCategory($event)"
                 required>
                 <option *ngFor="let product of productCategories" [value]="product.label">{{ product.label }}</option>
             </select>
@@ -27,12 +28,52 @@
               <i>Please select a product category</i></span>                
             </span>
         </div>
+        <div class="form-group">
+          <label for="product">Product: </label>
+          <select 
+              name="product" 
+              id="product" 
+              class="form-control"
+              [disabled]="isSubmitted"
+              formControlName="product"
+              required>
+              <option *ngFor="let prod of products" [value]="prod.label">{{ prod.label }}</option>
+          </select>
+          <span *ngIf="stockForm.invalid && ( stockFormGroup.get('product')?.touched && !stockFormGroup.get('product')?.dirty)">
+            <span class="error" ng-show="stockForm.product.$error.required">
+            <i>Please select a product category</i></span>                
+          </span>
+      </div>
           <div class="form-group">
               <label>Product code: </label>
               <input type="text" class="form-control" name="productCode" formControlName="productCode" [disabled]="isSubmitted" required>
               <span *ngIf="stockForm.invalid && ( stockFormGroup.get('productCode')?.touched && !stockFormGroup.get('productCode')?.dirty)">
                 <span class="error" ng-show="stockForm.productCode.$error.required">
                 <i>Product code required</i></span>                
+              </span>
+            </div>
+            <div class="form-group">
+              <label>Quality: </label>
+              <input  type="text" class="form-control" name="quality" formControlName="quality" [disabled]="isSubmitted" required>
+              <span *ngIf="stockForm.invalid && ( stockFormGroup.get('quality')?.touched && !stockFormGroup.get('quality')?.dirty)">
+                <span class="error" ng-show="stockForm.quality.$error.required">
+                <i>Please specify the quality</i></span>                
+              </span>
+            </div>
+            <div class="form-group">
+              <label>Product description: </label>
+              <input type="text" class="form-control" name="productDescription" formControlName="productDescription" [disabled]="isSubmitted" required>
+              <span *ngIf="stockForm.invalid && ( stockFormGroup.get('productDescription')?.touched && !stockFormGroup.get('productDescription')?.dirty)">
+                <span class="error" ng-show="stockForm.productDescription.$error.required">
+                <i>Product description required</i></span>                
+              </span>
+            </div>
+            <div class="form-group">
+              <label>Product polish: </label>
+              <input type="text" class="form-control" name="productPolish" formControlName="productPolish" [disabled]="isSubmitted" required>
+              <span *ngIf="stockForm.invalid && ( stockFormGroup.get('productPolish')?.touched && !stockFormGroup.get('productPolish')?.dirty)">
+                <span class="error" ng-show="stockForm.productPolish.$error.required">
+                <i>Product polish required</i></span>                
               </span>
             </div>
             <div class="form-group">

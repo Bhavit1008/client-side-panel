@@ -1,9 +1,11 @@
-import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
+import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
+import { DataSource } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-add-stock',
@@ -17,11 +19,12 @@ export class AddStockComponent {
   responseObj = {}
   stockSuccessDialog = false
   stockFailureDialog = false
-
+  companies: any;
+  users: any;
   selectedFile: any;
   x:any;
   image:any;
-
+   
   productCategories = [
     { id: 1, label: "Marble" },
     { id: 2, label: "Granite" },
@@ -40,7 +43,17 @@ export class AddStockComponent {
     { id: 1, label: "marble" }
   ]
 
-  constructor(private sanitizer: DomSanitizer, private httpClient: HttpClient,private router:Router,private route:ActivatedRoute,private form:FormBuilder) { }
+  constructor(private sanitizer: DomSanitizer, private httpClient: HttpClient,private router:Router,private route:ActivatedRoute,private form:FormBuilder) {
+    var response = this.getCompanies().then((res) => {
+      console.log('fetched response ::', res);
+      this.companies = res;
+  });
+
+  var response = this.getUsers().then((res) => {
+    console.log('fetched response ::', res);
+    this.users = res;
+});
+   }
 
   get f(){return this.stockFormGroup.controls;}
 
@@ -84,6 +97,7 @@ prepareResForNewStock(form: any){
     productLocation: form.value.productLocation,
     associatedManager: form.value.associatedManager,
     relatedParty: form.value.relatedParty,
+    slabDetails: this.dataSource,
     productImage: this.x
   }
   console.log('stock added :: ', this.responseObj)
@@ -233,4 +247,71 @@ resetControl(){
     getAsByteArray(file: any) {
     return new Uint8Array(file)
   }
+
+  displayedColumns: string[] = ['id', 'size', 'sqft', 'edit'];
+  dataSource: any[] = [
+    { id: 1, size: '12*36', sqft: '3' }
+  ];
+  editedRowIndex: any=1;
+  startEditing(index: number) {
+    this.editedRowIndex = index;
+  }
+  cancelEditing() {
+    this.editedRowIndex = -1;
+  }
+  saveRow(row: any) {
+    // Perform the save operation here, such as making an API call
+    console.log('Saving row', row);
+    this.dataSource[row.id-1] = row
+    console.log(this.dataSource[0])
+    this.dataSource = Object.assign([], this.dataSource);
+    this.editedRowIndex = -1;
+  }
+  addRow(){
+    console.log('current datasource :: ',this.dataSource);
+    let arr = {
+      id: this.dataSource.length + 1,
+      size: 0,
+      sqft: 0
+    }
+    this.dataSource.push(arr);
+    this.dataSource = Object.assign([], this.dataSource);
+  }
+
+deleteRow(row: any){
+  let index = this.dataSource.indexOf(row)
+  if(index!=-1){
+    this.dataSource.splice(index,1)
+    for(let i=0;i<this.dataSource.length;i++){
+      this.dataSource[i].id = i+1;
+    }
+    this.dataSource = Object.assign([], this.dataSource);
+  }
+}
+
+async getCompanies(): Promise<any[]>{
+  console.log('api called')
+  return firstValueFrom(this.httpClient.get<any[]>('https://setu-crm.onrender.com/getCompany',{
+    headers:
+        new HttpHeaders(
+          {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+          }
+        )
+  }))
+}
+
+async getUsers(): Promise<any[]>{
+  console.log('api called')
+  return firstValueFrom(this.httpClient.get<any[]>('https://setu-crm.onrender.com/getUsers',{
+    headers:
+        new HttpHeaders(
+          {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+          }
+        )
+  }))
+}
 }

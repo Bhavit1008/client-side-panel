@@ -62,7 +62,7 @@ postApiCall(data: any){
   const headers = { 'content-type': 'application/json'}  
   const body=JSON.stringify(data);
   console.log(body)
-  var url = 'http://localhost:8080/addCompany'
+  var url = 'https://setu-crm.onrender.com/addCompany'
   return this.httpClient.post(url, body,{'headers':headers})
 }
 

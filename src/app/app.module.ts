@@ -57,6 +57,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 // Material Data tables
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { GetStockComponent } from './get-stock/get-stock.component';
 
 
 @NgModule({
@@ -71,7 +72,8 @@ import { MatSortModule } from '@angular/material/sort';
     AddUserComponent,
     PurchaseOrderComponent,
     ViewGatepassComponent,
-    UnauthorizeComponent
+    UnauthorizeComponent,
+    GetStockComponent
 
   ],
   imports: [

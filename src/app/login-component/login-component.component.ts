@@ -12,6 +12,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class LoginComponentComponent {
   loginSuccess = false;
   public loginCompForm!: FormGroup;
+  isFetching = false;
 
   ngOnInit(): void {
     this.buildForm()
@@ -64,6 +65,7 @@ export class LoginComponentComponent {
 
   callApi(loginDto: any){
     console.log('login dto ::',loginDto)
+    this.isFetching = false;
     return this.httpClient.post<any[]>('https://setu-crm.onrender.com/login',loginDto,{
       headers:
           new HttpHeaders(
@@ -76,7 +78,8 @@ export class LoginComponentComponent {
   }
 
   postApiCall(data: any){
-    const headers = { 'content-type': 'application/json'}  
+    const headers = { 'content-type': 'application/json'} 
+    this.isFetching = true; 
     const body=JSON.stringify(data);
     console.log(body)
     var url = 'https://setu-crm.onrender.com/login'

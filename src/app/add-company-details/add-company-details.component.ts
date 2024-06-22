@@ -39,12 +39,16 @@ buildForm(){
     gstNumber: new FormControl(''),
     contactNumber: new FormControl(''),
     emailAddress: new FormControl(''),
+    managerName: new FormControl(''),
+    managerContactNumber: new FormControl(''),
+    managerEmailAddress: new FormControl('')
   })
 }
 
 prepareResForNewCompany(form: any){
   var currentTime = new Date();
   this.responseObj = {
+    id: form.value.companyName + new Date(),
     companyName: form.value.companyName,
     companyOwnerName: form.value.companyOwnerName,
     companyAddress: form.value.companyAddress,
@@ -53,6 +57,9 @@ prepareResForNewCompany(form: any){
     gstNumber: form.value.gstNumber,
     contactNumber: form.value.contactNumber,
     emailAddress: form.value.emailAddress,
+    managerName: form.value.managerName,
+    managerContactNumber: form.value.managerContactNumber,
+    managerEmailAddress: form.value.managerEmailAddress
   }
 
   console.log('responseObj for new Company form :: ',this.responseObj);
@@ -109,6 +116,9 @@ enableControl(){
   this.companyFormGroup.get('gstNumber')?.enable();
   this.companyFormGroup.get('contactNumber')?.enable();
   this.companyFormGroup.get('emailAddress')?.enable();  
+  this.companyFormGroup.get('managerName')?.enable();  
+  this.companyFormGroup.get('managerContactNumber')?.enable();  
+  this.companyFormGroup.get('managerEmailAddress')?.enable();  
 }
 
 disableControl(){
@@ -120,6 +130,9 @@ disableControl(){
   this.companyFormGroup.get('gstNumber')?.disable();
   this.companyFormGroup.get('contactNumber')?.disable();
   this.companyFormGroup.get('emailAddress')?.disable();
+  this.companyFormGroup.get('managerName')?.disable();  
+  this.companyFormGroup.get('managerContactNumber')?.disable();  
+  this.companyFormGroup.get('managerEmailAddress')?.disable(); 
 }
 
 resetControl(){
@@ -130,7 +143,10 @@ resetControl(){
   this.companyFormGroup.get('zipCode')?.reset();
   this.companyFormGroup.get('gstNumber')?.reset();
   this.companyFormGroup.get('contactNumber')?.reset();
-  this.companyFormGroup.get('emailAddress')?.reset();  
+  this.companyFormGroup.get('emailAddress')?.reset(); 
+  this.companyFormGroup.get('managerName')?.reset();  
+  this.companyFormGroup.get('managerContactNumber')?.reset();  
+  this.companyFormGroup.get('managerEmailAddress')?.reset();  
 }
 
 }

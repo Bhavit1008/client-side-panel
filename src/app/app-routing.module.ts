@@ -12,6 +12,7 @@ import { AddUserComponent } from './add-user/add-user.component';
 import { PurchaseOrderComponent } from './puchase-order/purchase-order.component';
 import { ViewGatepassComponent } from './view-gatepass/view-gatepass.component';
 import { UnauthorizeComponent } from './unauthorize/unauthorize.component';
+import { GetStockComponent } from './get-stock/get-stock.component';
 
 const routes: Routes = [
   {
@@ -53,6 +54,14 @@ const routes: Routes = [
   {
     path: 'add-stock',
     component: AddStockComponent,
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['admin','manager']
+    }
+  },
+  {
+    path: 'get-stock',
+    component: GetStockComponent,
     canActivate: [AuthGuard],
     data: {
       roles: ['admin','manager']

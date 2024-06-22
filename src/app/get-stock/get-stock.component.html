@@ -1,0 +1,52 @@
+<div class="container">
+    <form #getStockForm="ngForm" [formGroup]="getStockCompForm">
+        <div class="row" >
+            <label for="selectStatus">Select Category</label>
+            <select 
+                name="selectCategory" 
+                id="selectCategory"
+                formControlName="selectCategory" 
+                class="form-control"
+                
+                >
+                <option *ngFor="let cat of category" [value]="cat.label">{{ cat.label }}</option>
+                <!-- <button class="btn btn-primary btn-block" (click)="onSelectStatusChange(getOrderForm)">Search</button> -->
+      
+            </select>
+            
+            <!-- (change)= "onSelectStatusChange($event)" -->
+          </div>
+          <div class="form-group row">
+            <label>Start Date</label>
+            <input type="date" class="form-control" name="dateOfStocking" formControlName="dateOfStocking">
+          </div>
+
+          <div class="form-group row">
+            <label>End Date</label>
+            <input type="date" class="form-control" name="endDate" formControlName="endDate">
+          </div>
+
+          <div>
+            <div class="form-group row">
+                <button class="btn btn-primary btn-block" (click)="onSelectStatusChange(getStockForm)" style="margin: 8px;">Search</button>
+              </div>
+              <div class="form-group spinner-border text-secondary spinner-border-md" style="margin: 16px; padding: 4px;" *ngIf="isFetching" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+        </div>
+      </form>
+
+      <div class="row">
+        <div class="card col-md-3 col-sm-6 col-xs-6" style="width: 18rem; margin: 12px; padding:2px;" *ngFor="let num of response">
+            <div class="card-body">
+              <h4 class="card-subtitle mb-2 text-muted">{{num.productCategory}}</h4>
+              <h5 class="card-title">{{num.product}}</h5>
+              <h5 class="card-subtitle mb-2 text-muted">{{num.productDescription}}</h5>
+              <h6 class="card-text">{{num.dateOfStocking}}</h6>
+              <a  class="card-link" [routerLink]="[ '/order-confirmation',num]">Edit</a>
+              <a  *ngIf="adminAccess" class="card-link" (click)="openPopup(num)">Delete</a>
+              <a class="card-link" (click)="viewOrder(num)">View</a>
+            </div>
+          </div>
+  </div>
+</div>

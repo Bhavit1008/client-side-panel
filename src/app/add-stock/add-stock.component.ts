@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
-import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, Observable, firstValueFrom, map } from 'rxjs';
 import { DataSource } from '@angular/cdk/collections';
 
 @Component({
@@ -36,12 +36,22 @@ export class AddStockComponent {
     { id: 1, label: "Setu" },
     { id: 2, label: "Mugdha" },
     { id: 3, label: "Craftman"},
-    { id: 3, label: "Muradabad"},
+    { id: 4, label: "Muradabad"},
   ]
 
   products=[
     { id: 1, label: "marble" }
   ]
+
+  colors=[
+    { id: 1, label: "White" },
+    { id: 2, label: "Brown" },
+    { id: 3, label: "Black" },
+    { id: 4, label: "Red" },
+    { id: 5, label: "Green"}
+  ]
+
+  dataForEdit: any;
 
   constructor(private sanitizer: DomSanitizer, private httpClient: HttpClient,private router:Router,private route:ActivatedRoute,private form:FormBuilder) {
     var response = this.getCompanies().then((res) => {
@@ -53,12 +63,28 @@ export class AddStockComponent {
     console.log('fetched response ::', res);
     this.users = res;
 });
-   }
+  }
+
 
   get f(){return this.stockFormGroup.controls;}
 
   ngOnInit(){
     this.buildForm();
+    // var data = this.route.params.subscribe(params => {
+    //   this.dataForEdit = params
+    // });
+
+    this.route.paramMap
+      .pipe(map(() => window.history.state)).subscribe(res=>{
+            console.log('resulty :: ',res)
+            this.dataForEdit = res                             
+       })
+    console.log('data for edit :: ', this.dataForEdit);
+    console.log('Data from get page for edit :: ',this.dataForEdit);
+    if(this.dataForEdit!=null && this.dataForEdit!= undefined && Object.keys(this.dataForEdit).length !== 0){
+      console.log('dataForEdit is not empty');
+      this.setEditValues(this.dataForEdit);
+    }
   }
 
   //Build/initialize new form controller
@@ -74,7 +100,8 @@ buildForm(){
     productQuantity: new FormControl(''),
     dateOfStocking: new FormControl(''),
     warehouse: new FormControl(''),
-    productLocation: new FormControl(''),
+    productRate: new FormControl(''),
+    color: new FormControl(''),
     associatedManager: new FormControl(''),
     relatedParty: new FormControl(''),
     previewImg: new FormControl()
@@ -94,13 +121,41 @@ prepareResForNewStock(form: any){
     productQuantity: form.value.productQuantity,
     dateOfStocking: form.value.dateOfStocking,
     warehouse: form.value.warehouse,
-    productLocation: form.value.productLocation,
+    productRate: form.value.productRate,
+    color: form.value.color,
     associatedManager: form.value.associatedManager,
     relatedParty: form.value.relatedParty,
     slabDetails: this.dataSource,
-    productImage: this.x
+    productImage: this.image
   }
   console.log('stock added :: ', this.responseObj)
+}
+
+setEditValues(dataForEdit: any) {
+  console.log('data for edit ::', dataForEdit)
+  this.stockFormGroup.get('productCategory')?.setValue(dataForEdit.productCategory);
+  this.products = [
+    {
+      id: 1,
+      label: dataForEdit.product
+    }
+  ]
+  this.stockFormGroup.get('product')?.setValue(dataForEdit.product);
+  this.stockFormGroup.get('productCode')?.setValue(dataForEdit.productCode);
+  this.stockFormGroup.get('quality')?.setValue(dataForEdit.quality);
+  this.stockFormGroup.get('productDescription')?.setValue(dataForEdit.productDescription);
+  this.stockFormGroup.get('productPolish')?.setValue(dataForEdit.productPolish);
+  this.stockFormGroup.get('productQuantity')?.setValue(dataForEdit.productQuantity);
+  this.stockFormGroup.get('dateOfStocking')?.setValue(dataForEdit.dateOfStocking);
+  this.stockFormGroup.get('warehouse')?.setValue(dataForEdit.warehouse);
+  this.stockFormGroup.get('associatedManager')?.setValue(dataForEdit.associatedManager);
+  this.stockFormGroup.get('productRate')?.setValue(dataForEdit.productRate);
+  console.log('slab details ::', dataForEdit.slabDetails)
+  this.dataSource = dataForEdit.slabDetails
+  this.stockFormGroup.get('color')?.setValue(dataForEdit.color);
+  this.stockFormGroup.get('productImage')?.setValue(dataForEdit.productImage);
+  this.image = dataForEdit.productImage;
+  this.responseObj = dataForEdit
 }
 
 postApiCall(data: any){
@@ -154,7 +209,7 @@ disableControl(){
   this.stockFormGroup.get('quality')?.disable();
   this.stockFormGroup.get('dateOfStocking')?.disable();
   this.stockFormGroup.get('warehouse')?.disable();
-  this.stockFormGroup.get('productLocation')?.disable();
+  this.stockFormGroup.get('productRate')?.disable();
   this.stockFormGroup.get('associatedManager')?.disable();
   this.stockFormGroup.get('relatedParty')?.disable();
 }
@@ -167,7 +222,7 @@ enableControl(){
   this.stockFormGroup.get('quality')?.enable();
   this.stockFormGroup.get('dateOfStocking')?.enable();
   this.stockFormGroup.get('warehouse')?.enable();
-  this.stockFormGroup.get('productLocation')?.enable();
+  this.stockFormGroup.get('productRate')?.enable();
   this.stockFormGroup.get('associatedManager')?.enable();
   this.stockFormGroup.get('relatedParty')?.enable();
 }
@@ -181,7 +236,7 @@ resetControl(){
   this.stockFormGroup.get('quality')?.reset();
   this.stockFormGroup.get('dateOfStocking')?.reset();
   this.stockFormGroup.get('warehouse')?.reset();
-  this.stockFormGroup.get('productLocation')?.reset();
+  this.stockFormGroup.get('productRate')?.reset();
   this.stockFormGroup.get('associatedManager')?.reset();
   this.stockFormGroup.get('relatedParty')?.reset();
 }
@@ -248,9 +303,9 @@ resetControl(){
     return new Uint8Array(file)
   }
 
-  displayedColumns: string[] = ['id', 'size', 'sqft', 'edit'];
+  displayedColumns: string[] = ['id', 'length', 'width', 'sqft', 'edit'];
   dataSource: any[] = [
-    { id: 1, size: '12*36', sqft: '3' }
+    { id: 1, length: '12*36', width: '3', sqft: '6'}
   ];
   editedRowIndex: any=1;
   startEditing(index: number) {
@@ -261,7 +316,8 @@ resetControl(){
   }
   saveRow(row: any) {
     // Perform the save operation here, such as making an API call
-    console.log('Saving row', row);
+    row.sqft = (Number(row.length) * Number(row.width));
+    console.log('Saving row', Number(row.length) * Number(row.width));
     this.dataSource[row.id-1] = row
     console.log(this.dataSource[0])
     this.dataSource = Object.assign([], this.dataSource);
@@ -271,7 +327,8 @@ resetControl(){
     console.log('current datasource :: ',this.dataSource);
     let arr = {
       id: this.dataSource.length + 1,
-      size: 0,
+      length: 0,
+      width: 0,
       sqft: 0
     }
     this.dataSource.push(arr);
@@ -314,4 +371,5 @@ async getUsers(): Promise<any[]>{
         )
   }))
 }
+
 }

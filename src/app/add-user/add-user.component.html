@@ -63,8 +63,15 @@
                 </span>
             </div>
             <div class="form-group">
-                <label>Designation: </label>
-                <input type="text" class="form-control" name="designation" formControlName="designation">
+                <label for="designation">Designation: </label>
+                <select 
+                    name="designation" 
+                    id="designation" 
+                    class="form-control"
+                    formControlName="designation"
+                    required>
+                    <option *ngFor="let wh of userCategory" [value]="wh.value">{{ wh.label }}</option>
+                </select>
             </div>
             <div class="form-group row col-md-3">
                 <button class="btn btn-primary btn-block" (click)="saveUserDetails(userForm)" [disabled]="userForm.invalid">Save</button>

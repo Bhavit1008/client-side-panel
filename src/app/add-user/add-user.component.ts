@@ -33,6 +33,12 @@ export class AddUserComponent {
     { id: 3, label: "Bote"}
 ]
 
+userCategory = [
+  { id: 1, label: "Admin", value: "admin" },
+  { id: 2, label: "Manager", value: "manager" },
+  { id: 3, label: "User", value: "user"}
+]
+
 buildForm(){
   this.userFormGroup = this.form.group({
     fullName: new FormControl(''),

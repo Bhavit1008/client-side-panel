@@ -16,14 +16,18 @@
             
             <!-- (change)= "onSelectStatusChange($event)" -->
           </div>
-          <div class="form-group row">
-            <label>Start Date</label>
-            <input type="date" class="form-control" name="dateOfStocking" formControlName="dateOfStocking">
-          </div>
 
-          <div class="form-group row">
-            <label>End Date</label>
-            <input type="date" class="form-control" name="endDate" formControlName="endDate">
+          <div class="row" >
+            <label for="selectColor">Select Color</label>
+            <select 
+                name="selectColor" 
+                id="selectColor"
+                formControlName="selectColor" 
+                class="form-control"
+                
+                >
+                <option *ngFor="let col of colors" [value]="col.label">{{ col.label }}</option>      
+            </select>
           </div>
 
           <div>
@@ -43,10 +47,130 @@
               <h5 class="card-title">{{num.product}}</h5>
               <h5 class="card-subtitle mb-2 text-muted">{{num.productDescription}}</h5>
               <h6 class="card-text">{{num.dateOfStocking}}</h6>
-              <a  class="card-link" [routerLink]="[ '/order-confirmation',num]">Edit</a>
+              <a  class="card-link" [routerLink]="[ '/add-stock']" [state]="num">Edit</a>
               <a  *ngIf="adminAccess" class="card-link" (click)="openPopup(num)">Delete</a>
               <a class="card-link" (click)="viewOrder(num)">View</a>
             </div>
           </div>
   </div>
+
+
+  <div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':displayStyle}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Delete stock</h4>
+      </div>
+      <div class="modal-body">
+        <p>Stock will be completely deleted.</p>
+      </div>
+      <div class="modal-footer row">
+        <button type="button" class="btn btn-danger" 
+                (click)="deleteFromPopup()" style="margin-right: 16px;">
+          Delete
+        </button>
+        <button type="button" class="btn btn-light" 
+                (click)="closePopup()" style="margin-right: 4px;">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
+
+
+
+<div
+  class="modal"
+  role="dialog"
+  [ngStyle]="{'display':viewStyle}"  *ngIf="currentElementToView">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p>Selected stock details are as follows:</p>
+        <table>
+          <tbody>
+            <tr>
+                <td>Id</td>
+                <td> {{ currentElementToView.id }} </td>
+            </tr>
+            <tr>
+                <td>Product Category</td>
+                <td> {{ currentElementToView.productCategory }} </td>
+            </tr>
+            <tr>
+              <td>Product</td>
+              <td> {{ currentElementToView.product }} </td>
+          </tr>
+          <tr>
+              <td>Quality</td>
+              <td> {{ currentElementToView.quality }} </td>
+          </tr>
+          <tr>
+              <td>Product Description</td>
+              <td> {{ currentElementToView.productDescription }} </td>
+          </tr>
+          <tr>
+              <td>Product Polish </td>
+              <td> {{ currentElementToView.productPolish }} </td>
+          </tr>
+          <tr>
+              <td>Product Code </td>
+              <td> {{ currentElementToView.productCode }} </td>
+          </tr>
+          <tr>
+              <td>Product Quantity</td>
+              <td> {{ currentElementToView.productQuantity }} </td>
+          </tr>
+          <tr>
+              <td>Date Of Stocking</td>
+              <td> {{ currentElementToView.dateOfStocking }} </td>
+          </tr>
+          <tr>
+              <td>Warehouse</td>
+              <td> {{ currentElementToView.warehouse }} </td>
+          </tr>
+          <tr>
+              <td>Product Rate</td>
+              <td> {{ currentElementToView.productRate }} </td>
+          </tr>
+          <tr>
+              <td>Associated Manager</td>
+              <td> {{ currentElementToView.associatedManager }} </td>
+          </tr>
+          <tr>
+              <td>Shape</td>
+              <td> {{ currentElementToView.shape }} </td>
+          </tr>
+          <tr>
+              <td>RelatedParty </td>
+              <td> {{ currentElementToView.relatedParty }} </td>
+          </tr>
+          <tr>
+              <td>Color </td>
+              <td> {{ currentElementToView.color }} </td>
+          </tr>
+          <tr>
+              <td>Slab Details</td>
+              <td> {{ currentElementToView.slabDetails[0].length }} x {{ currentElementToView.slabDetails[0].width }} = {{ currentElementToView.slabDetails[0].sqft }} </td>
+              <hr>
+          </tr>
+          <tr>
+              <td>Product Image </td>
+              <td><img id="previewImg"  alt="Captured Image" [src]="currentElementToView.productImage" style="width:150px;height:150px"></td>
+          </tr>
+          </tbody>
+          </table>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn btn-secondary mr-auto btn-ok" (click)="closePopup()">Ok</button>
+      </div>
+        
+    </div>
+  </div>
+  </div>

@@ -11,6 +11,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class LoginComponentComponent {
   loginSuccess = false;
+  isloginFailed = false;
   public loginCompForm!: FormGroup;
   isFetching = false;
 
@@ -44,10 +45,10 @@ export class LoginComponentComponent {
       username: request.loginId,
       password: request.password
     }
-    var response = this.postApiCall(loginDto);
-    console.log('login response ::', response.pipe);
+    
     this.postApiCall(loginDto).subscribe(data => {
       let res = JSON.parse(JSON.stringify(data))
+      console.log('login response :: ',res)
       this.loginSuccess = true;
       var credObj = {
         isLoginSuccessful: 'yes',
@@ -60,6 +61,11 @@ export class LoginComponentComponent {
       }
       console.log('obj :: ',credObj)
       localStorage.setItem('cred', JSON.stringify(credObj));
+    }, error =>{
+      this.isFetching = false;
+      this.loginSuccess = false;
+      this.isloginFailed = true;
+      console.log(error)
     })
   }
 

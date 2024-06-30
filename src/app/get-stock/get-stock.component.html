@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" style="margin: 10px;">
     <form #getStockForm="ngForm" [formGroup]="getStockCompForm">
         <div class="row" >
             <label for="selectStatus">Select Category</label>
@@ -27,6 +27,19 @@
                 
                 >
                 <option *ngFor="let col of colors" [value]="col.label">{{ col.label }}</option>      
+            </select>
+          </div>
+
+          <div class="row" >
+            <label for="selectPrice">Select Price</label>
+            <select 
+                name="selectPrice" 
+                id="selectPrice"
+                formControlName="selectPrice" 
+                class="form-control"
+                
+                >
+                <option *ngFor="let price of prices" [value]="price.value">{{ price.label }}</option>      
             </select>
           </div>
 

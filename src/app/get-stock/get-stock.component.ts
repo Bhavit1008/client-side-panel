@@ -41,6 +41,20 @@ export class GetStockComponent {
     { id: 5, label: "Green"}
   ]
 
+  prices=[
+    { id: 1, label: "Under 50", value:"0-50" },
+    { id: 2, label: "50-80", value:"50-80" },
+    { id: 3, label: "80-100", value:"80-100" },
+    { id: 4, label: "100-125", value:"100-125" },
+    { id: 5, label: "125-150", value:"125-150" },
+    { id: 6, label: "150-175", value:"150-175" },
+    { id: 7, label: "175-200", value:"175-200" },
+    { id: 8, label: "200-250", value:"200-250" },
+    { id: 9, label: "250-300", value:"250-300" },
+    { id: 9, label: "300-400", value:"300-400" },
+    { id: 10, label: "Above 400", value:"400-1000" },
+  ]
+
   constructor(private httpClient: HttpClient,private route:ActivatedRoute , private form:FormBuilder, private router: Router){
     var response = this.getUsers().then((res) => {
       console.log('fetched response ::', res);
@@ -63,7 +77,8 @@ export class GetStockComponent {
   buildForm(){
     this.getStockCompForm = this.form.group({
       selectCategory: new FormControl(''),
-      selectColor: new FormControl('')
+      selectColor: new FormControl(''),
+      selectPrice: new FormControl('')
     })
   }
 
@@ -121,7 +136,8 @@ export class GetStockComponent {
   onSelectStatusChange(form: any){
     var reqBody = {
       category: form.value.selectCategory,
-      color: form.value.selectColor
+      color: form.value.selectColor,
+      price: form.value.selectPrice
     }
 
     this.postApiCall(reqBody,'https://setu-crm.onrender.com/getStock').then((res) => {

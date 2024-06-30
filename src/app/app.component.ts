@@ -10,7 +10,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class AppComponent {
   title = 'client-side-forms';
   collapsed = true;
-  loginSuccess = true;
+  loginSuccess = false;
   loginCred:any = "unauthenticated"
   public loginCompForm!: FormGroup;
 

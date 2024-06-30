@@ -1,4 +1,16 @@
 <div class="container" *ngIf="!loginSuccess">
+  <div class="alert alert-success" *ngIf="loginSuccess" role="alert">
+    Logged in successfully
+      <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+  </div>
+  <div class="alert alert-info" *ngIf="isFetching" role="alert">
+    Login in progress, thank you for the wait.
+      <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+  </div>
+  <div class="alert alert-danger" *ngIf="isloginFailed" role="alert">
+    Login failed, please enter valid credentials or contact admin.
+      <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+  </div>
   <form #loginForm="ngForm" [formGroup]="loginCompForm">
     <div class="form-group">
       <label>Login id: </label>

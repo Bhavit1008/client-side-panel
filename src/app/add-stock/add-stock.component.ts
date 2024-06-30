@@ -24,7 +24,12 @@ export class AddStockComponent {
   selectedFile: any;
   x:any;
   image:any;
-   
+  displayedColumns: string[] = ['id', 'length', 'width', 'sqft', 'edit'];
+  dataSource: any[] = [
+    { id: 1, length: '12', width: '3', sqft: '36'}
+  ];
+  editedRowIndex: any=1;
+
   productCategories = [
     { id: 1, label: "Marble" },
     { id: 2, label: "Granite" },
@@ -81,7 +86,7 @@ export class AddStockComponent {
        })
     console.log('data for edit :: ', this.dataForEdit);
     console.log('Data from get page for edit :: ',this.dataForEdit);
-    if(this.dataForEdit!=null && this.dataForEdit!= undefined && Object.keys(this.dataForEdit).length !== 0){
+    if(this.dataForEdit!=null && this.dataForEdit!= undefined && Object.keys(this.dataForEdit).length !== 0 && this.dataForEdit.product!=undefined){
       console.log('dataForEdit is not empty');
       this.setEditValues(this.dataForEdit);
     }
@@ -303,11 +308,7 @@ resetControl(){
     return new Uint8Array(file)
   }
 
-  displayedColumns: string[] = ['id', 'length', 'width', 'sqft', 'edit'];
-  dataSource: any[] = [
-    { id: 1, length: '12*36', width: '3', sqft: '6'}
-  ];
-  editedRowIndex: any=1;
+  
   startEditing(index: number) {
     this.editedRowIndex = index;
   }
@@ -316,7 +317,8 @@ resetControl(){
   }
   saveRow(row: any) {
     // Perform the save operation here, such as making an API call
-    row.sqft = (Number(row.length) * Number(row.width));
+    if(row.length!=undefined && row.width!=undefined) 
+    row.sqft = (Number(row.length) * Number(row.width))/144;
     console.log('Saving row', Number(row.length) * Number(row.width));
     this.dataSource[row.id-1] = row
     console.log(this.dataSource[0])
